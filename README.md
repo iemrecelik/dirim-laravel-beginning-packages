@@ -107,6 +107,10 @@ $(function () {
 })
 // Document ready end
 ```
+Yada
+```
+php artisan vendor:publish --force --tag=mainjs
+```
 
 **resources/js/jquery/main-ajax.js :**
 ```
@@ -128,6 +132,11 @@ $.ajaxSetup({
   }
 });
 ```
+Yada
+```
+php artisan vendor:publish --force --tag=mainajaxjs
+```
+
 **resource/js/app.js :**
 ```
 require('./bootstrap');
@@ -186,6 +195,11 @@ export const app = new Vue({
 	i18n,
 })
 ```
+Yada
+```
+php artisan vendor:publish --force --tag=appjs
+```
+
 **resource/js/store/mainStore.js :**
 ```
 export const state = i18n => ({
@@ -271,6 +285,11 @@ export const actions = i18n => ({
 
 export const namespaced =  true;
 ```
+Yada
+```
+php artisan vendor:publish --force --tag=mainStorejs
+```
+
 **resource/js/store/index.js :**
 ```
 import {state, getters, mutations, actions} from './mainStore';
@@ -284,10 +303,14 @@ export default i18n => ({
 	// strict: true,
 });
 ```
-
-**NOT: Bu işlemleri yapmak istemiyorsanız başlık altında belirtildiği gibi aşağıdaki kodu çalıştırarak otomatik olarak gerçekleşmesini sağlayabilirsiniz.(Bu işlemi yaparken aynı isimde dosya olmadığına dikkat edin. Çünkü üzerine yazacağı için dosyalarınız silinir.)**
+Yada
 ```
-php artisan vendor:publish --force --tag=scriptSnippet
+php artisan vendor:publish --force --tag=mainStoreIndexjs
+```
+
+**NOT: Bu işlemleri yapmak istemiyorsanız başlık altında belirtildiği gibi aşağıdaki kodu çalıştırarak otomatik olarak gerçekleşmesini sağlayabilirsiniz. Sadece bazı dosyaların otomatik yapılmasını istiyorsanız. Otomatik yapılmasını istediğiniz dosyanın altındaki kodu consol da çalıştırınız.(Bu işlemi yaparken aynı isimde dosya olmadığına dikkat edin. Çünkü üzerine yazacağı için dosyalarınız silinir.)**
+```
+php artisan vendor:publish --force --tag=scriptSnippets
 ```
 
 ## Yükleme İşlemi
