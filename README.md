@@ -287,7 +287,7 @@ export const namespaced =  true;
 ```
 Yada
 ```
-php artisan vendor:publish --force --tag=mainstorejs
+php artisan vendor:publish --force --tag=mainStorejs
 ```
 
 **resource/js/store/index.js :**
@@ -305,7 +305,7 @@ export default i18n => ({
 ```
 Yada
 ```
-php artisan vendor:publish --force --tag=mainstoreindexjs
+php artisan vendor:publish --force --tag=mainStoreIndexjs
 ```
 
 **resource/js/globalMixin.js :**
@@ -516,7 +516,7 @@ export default {
 
 Yada
 ```
-php artisan vendor:publish --force --tag=globalmixinjs
+php artisan vendor:publish --force --tag=globalMixinjs
 ```
 
 **NOT: Bu işlemleri yapmak istemiyorsanız başlık altında belirtildiği gibi aşağıdaki kodu çalıştırarak otomatik olarak gerçekleşmesini sağlayabilirsiniz. Sadece bazı dosyaların otomatik yapılmasını istiyorsanız. Otomatik yapılmasını istediğiniz dosyanın altındaki kodu consol da çalıştırınız.(Bu işlemi yaparken aynı isimde dosya olmadığına dikkat edin. Çünkü üzerine yazacağı için dosyalarınız silinir.)**
