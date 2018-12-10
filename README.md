@@ -92,7 +92,7 @@ require('./jquery/main-ajax.js');
 
 Aşağıdaki kodu konsolda çalıştırırsanız paket bu başlık altındaki işlemleri sizin için kendi yapar.(Bu işlemi yaparken aynı isimde dosya olmadığına dikkat edin. Çünkü üzerine yazacağı için dosyalarınız silinir.)
 ```
-php artisan vendor:publish --force --tag=scriptSnippet
+php artisan vendor:publish --force --tag=scriptSnippets
 ```
 
 Ama kendiniz yapmak isterseniz aşağıdaki dosyaları düzenleyin. Tercihe göre aşağıdaki main.js ve main-ajax.js dosyalarındaki script kodları ana sayfadaki script dosyanıza ekleyerek de yapabilirsiniz.
