@@ -187,7 +187,7 @@ const sharedState = {
 	currentLocallang: document.documentElement.lang,
 }
 
-export const app = new Vue({
+const app = new Vue({
 	el: "#app",
 	store,
 	sharedState,
