@@ -1,6 +1,13 @@
 # Laravel Beginning Packages
 Laravel framework' ü için gerekli olan mini paketleri içerir. Crud işlemleri, kullanıcıların girdiği sayfaları dosyaya kaydetme, veri tabanı işlemlerini kaydetme ve language' deki php array dosyalarını vue-i18n için gerekli olan js dosyasına çevirme işlemlerini yapar.
 
+## Yükleme İşlemi
+Aşağıdaki kodu konsolda çalıştırdıktan sonra paketimiz yüklenecek.
+
+```
+composer require dirim/laravel-beginning-packages
+```
+
 ## Gerekli Paketler
 ### MongoDB
 Veritabanı işlermleri mongodb' de kayıt ediliyor. O yüzden aşağıdaki component' i yükleyin. Eğer projenizde mongodb yüklüyse bu kısmı geçin.
@@ -523,11 +530,3 @@ php artisan vendor:publish --force --tag=globalMixinjs
 ```
 php artisan vendor:publish --force --tag=scriptSnippets
 ```
-
-## Yükleme İşlemi
-Şimdi yükleme işlemine geçebiliriz. Aşağıdaki kodu konsolda çalıştırdıktan sonra paketimiz yüklenecek.
-
-```
-composer require dirim/laravel-beginning-packages
-```
-
