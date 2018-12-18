@@ -101,6 +101,13 @@ Aşağıdaki kodu konsolda çalıştırırsanız paket bu başlık altındaki i�
 ```
 php artisan vendor:publish --force --tag=scriptSnippets
 ```
+Yukarıdaki kodu çalıştırdığınızda yüklenecek dosyalar : 
+- resources/js/jquery/main.js
+- resources/js/jquery/main-ajax.js
+- resource/js/app.js
+- resource/js/store/mainStore.js
+- resource/js/store/index.js
+- resource/js/globalMixin.js
 
 Ama kendiniz yapmak isterseniz aşağıdaki dosyaları düzenleyin. Tercihe göre aşağıdaki main.js ve main-ajax.js dosyalarındaki script kodları ana sayfadaki script dosyanıza ekleyerek de yapabilirsiniz.
 
