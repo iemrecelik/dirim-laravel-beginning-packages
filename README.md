@@ -537,6 +537,10 @@ php artisan vendor:publish --force --tag=globalMixinjs
 ```
 php artisan vendor:publish --force --tag=beginningPackScss
 ```
+**Genel componentler :**
+```
+php artisan vendor:publish --force --tag=stablePublicComponents
+```
 
 **NOT: Bu işlemleri yapmak istemiyorsanız başlık altında belirtildiği gibi aşağıdaki kodu çalıştırarak otomatik olarak gerçekleşmesini sağlayabilirsiniz. Sadece bazı dosyaların otomatik yapılmasını istiyorsanız. Otomatik yapılmasını istediğiniz dosyanın altındaki kodu consol da çalıştırınız.(Bu işlemi yaparken aynı isimde dosya olmadığına dikkat edin. Çünkü üzerine yazacağı için dosyalarınız silinir.)**
 ```
