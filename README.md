@@ -9,6 +9,18 @@ composer require dirim/laravel-beginning-packages
 ```
 
 ## Gerekli Paketler
+### Image Intervention
+Resim resize işlemleri için bu paketi yüklemeniz lazım. Aşağıdaki kodu çalıştırabilirsiniz. Yada bu adresinden yükleme işlemi gerçekleştirin.
+```
+composer require intervention/image
+
+//Laravel 5 için
+php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravel5"
+```
+Resim dosyaları storage dosyasına kaydedileceği için public klasörü ile storage arasında bağlantı oluşturmalısınız. Yoksa bu dosyaları sistem okuyamaz. Bunun için aşağıdaki kodu çalıştırın.
+```
+php artisan storage:link
+```
 ### MongoDB
 Veritabanı işlermleri mongodb' de kayıt ediliyor. O yüzden aşağıdaki component' i yükleyin. Eğer projenizde mongodb yüklüyse bu kısmı geçin.
 
