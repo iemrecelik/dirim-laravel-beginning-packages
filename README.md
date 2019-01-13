@@ -558,3 +558,51 @@ php artisan vendor:publish --force --tag=stablePublicComponents
 ```
 php artisan vendor:publish --force --tag=scriptSnippets
 ```
+
+# Genel Kullanım
+Konsolda size ilk başta aşağıdaki soruyu soracak : 
+```
+Do you want to generate crud processes it manually or from file? Default: [manual]
+```
+Eğer config dosyasınıza crud dosyası oluşturup aşağıdaki : 
+```
+'books' => [
+'crudType' => 'all',
+'modelPath' => 'Admin/Books',
+'imgModelPath' => 'Admin/Images',
+'imgReqRules' => 'Admin/UpdateImagesPost',
+'fieldIDName' => 'bks_id',
+'addFields' => [
+    [
+	'name' => 'bks_edition',
+	'type' => 'text',
+    ],
+    [
+	'name' => 'bks_salary',
+	'type' => 'text',
+    ],
+    [
+	'name' => 'bks_start_date',
+	'type' => 'date',
+    ],
+],
+'reqRules' => 'Admin/BooksRequest',
+'advancedReqRules' => 'Admin/BooksAdvancedRequest',
+'langInfoTblPath' => 'Languages',
+'langModelPath' => 'Admin/BooksLang',
+'fieldDependsOnLang' => 'bksl_lang',
+'langFieldIDName' => 'bksl_id',
+'addLangFields' => [
+    [
+	'name' => 'bksl_name',
+	'type' => 'text',
+    ],
+    [
+	'name' => 'bksl_subject',
+	'type' => 'text',
+    ],
+],
+]
+```
+
+yukarıdaki bilgileri doldurursanız. Sistem otomatik tüm bilgileri tanıyacaktır. Consoldan kendi elinizle bilgileri doldurmak isterseniz. Manaul seçeneğini seçiniz.
