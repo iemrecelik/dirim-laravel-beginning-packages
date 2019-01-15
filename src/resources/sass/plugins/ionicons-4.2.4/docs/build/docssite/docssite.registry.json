@@ -1,0 +1,49 @@
+{
+  "namespace": "DocsSite",
+  "fsNamespace": "docssite",
+  "loader": "../docssite.js",
+  "global": "docssite.global.js",
+  "core": "docssite.rhxn6s8r.js",
+  "corePolyfilled": "docssite.xipa2scg.js",
+  "components": {
+    "footer-bar": {
+      "$": "js9iloau"
+    },
+    "header-bar": {
+      "$": "njnrhcsu"
+    },
+    "icon-list": {
+      "$": "bjphfriz"
+    },
+    "icon-search": {
+      "$": "j5rbuqbp"
+    },
+    "ionicons-site": {
+      "$": "njnrhcsu"
+    },
+    "landing-page": {
+      "$": "bjphfriz"
+    },
+    "notfound-page": {
+      "$": "d83fvjds"
+    },
+    "stencil-route": {
+      "$": "njnrhcsu"
+    },
+    "stencil-route-link": {
+      "$": "ikjvkszj"
+    },
+    "stencil-route-switch": {
+      "$": "njnrhcsu"
+    },
+    "stencil-router": {
+      "$": "njnrhcsu"
+    },
+    "toast-bar": {
+      "$": "bjphfriz"
+    },
+    "usage-page": {
+      "$": "dnu5bejp"
+    }
+  }
+}

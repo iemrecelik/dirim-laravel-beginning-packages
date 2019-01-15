@@ -1,0 +1,31 @@
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// ionicons 4.2.4
+@import './plugins/ionicons-4.2.4/docs/css/ionicons.min.css';
+
+// v-tooltip
+@import './plugins/v-tooltip/v-tooltip.scss';
+
+//mixins
+@import 'mixins';
+
+// main all scss
+@import 'main';
+
+// Overload
+@import 'overload'; 
+
+// Data Tables
+@import '~datatables.net-bs4/css/dataTables.bootstrap4.min.css';
+@import '~datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
+
+//Loading-btn
+@import './css/loading-btn/loading.css';
+@import './css/loading-btn/loading-btn.css';
+
+//CropperJS
+@import '~cropperjs/dist/cropper.min.css';
+
+@import './css/main.css';
+@import '~jquery-ui/themes/base/all.css';

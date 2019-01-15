@@ -4,7 +4,7 @@ namespace Dirim\BeginningPackage;
 
 use Illuminate\Support\ServiceProvider;
 use Dirim\BeginningPackage\Observers\QueryLoggingObserver;
-use Dirim\BeginningPackage\Command\ConvertLangsToVueTranslateJS;
+use Dirim\BeginningPackage\Commands\ConvertLangsToVueTranslateJS;
 use Dirim\BeginningPackage\Commands\ControllerCrud\CreateControllerCrud;
 
 class BeginningPackServiceProvider extends ServiceProvider
@@ -16,11 +16,9 @@ class BeginningPackServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $fromBeginPackConfig = __DIR__.'/config/beginningPack.php';
+        $publishes = require(__DIR__.'/config/publishPaths.php');
 
-        $this->publishes([
-            $fromBeginPackConfig => config_path('beginningPack.php'),
-        ], 'beginningPack');
+        $this->publishFiles($publishes);
 
         if (config('beginningPack.transDevMode')) {
             $this->commands([
@@ -47,6 +45,19 @@ class BeginningPackServiceProvider extends ServiceProvider
             $this->commands([
                 CreateControllerCrud::class,
             ]);
+        }
+    }
+
+    private function publishFiles(Array $publishes)
+    {
+        foreach ($publishes as $pkey => $pval) {
+            if (is_array($pval)) {
+                foreach ($pval as $underPkey => $underPval) {
+                    $this->publishes([
+                        $underPkey => $underPval,
+                    ], $pkey);
+                }
+            }
         }
     }
 

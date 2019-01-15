@@ -11,5 +11,12 @@ return [
     /**
      * Observer Logging
      */
-    "observerPath" => null
+    "observerPath" => null,
+
+    /**
+     * Base Template Paths
+     */
+    "baseTmpPaths" => [
+        "all" => "crudBase.index"
+    ],
 ];
