@@ -49,6 +49,16 @@ config/databse.php dosyasına aşağıdaki driver ayarlarını girin.
     ]*/
 ],
 ```
+
+.env dosyası:
+```
+MONGO_DB_CONNECTION=mongodb
+MONGO_DB_HOST=mongo
+MONGO_DB_PORT=27017
+MONGO_DB_DATABASE=lvpacktest
+MONGO_DB_USERNAME=root
+MONGO_DB_PASSWORD=root
+```
 ## Crud İşlemleri İçin Gerekli NPM Paketleri
 Javascript işlemleri için aşağıdaki paketleri yüklemelisiniz.
 
