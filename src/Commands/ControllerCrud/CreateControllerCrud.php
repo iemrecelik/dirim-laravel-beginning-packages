@@ -424,7 +424,16 @@ class CreateControllerCrud extends Command
 
     private function fromFile()
     {
-        $vars = config('crud.books');
+        $crudNames = config('crud');
+        $crudNames = array_keys($crudNames);
+
+        $crudName = $this->choice(
+            'Please choice a crud name',
+            $crudNames,
+            0
+        );
+
+        $vars = config('crud.'.$crudName);
         
         foreach ($vars as $key => $val) {
             if (!empty($val)) {
@@ -1554,14 +1563,6 @@ class CreateControllerCrud extends Command
 
     protected function advancedUseFiles()
     {
-        /* if (empty($this->advancedReqRules)) {
-            $advancedReqRules = $this->ask(
-                'Please enter a request rule for model name?',
-                "{$this->modelPath}Request"
-            );
-            $this->setAdvancedReqRules($advancedReqRules);
-        } */
-
         $advancedReqRules = $this->getUsePath(
             $this->advancedReqRules
         );
@@ -1576,20 +1577,6 @@ class CreateControllerCrud extends Command
 
     protected function allUseFiles()
     {
-        /* if (empty($this->reqRules) && empty($this->advancedReqRules)) {
-            $reqRules = $this->ask(
-                'Please enter a request rule for model name?',
-                "{$this->modelPath}Request"
-            );
-            $this->setReqRules($reqRules);
-            
-            $advancedReqRules = $this->ask(
-                'Please enter a advanced request rule for model name?',
-                "{$this->modelPath}AdvancedRequest"
-            );
-            $this->setAdvancedReqRules($advancedReqRules);
-        } */
-        
         $reqRules = $this->getUsePath($this->reqRules);
         $advancedReqRules = $this->getUsePath(
             $this->advancedReqRules
