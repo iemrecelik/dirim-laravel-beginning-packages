@@ -1,4 +1,3 @@
-1
 # Laravel Beginning Packages
 Laravel framework' ü için gerekli olan mini paketleri içerir. Crud işlemleri, kullanıcıların girdiği sayfaları dosyaya kaydetme, veri tabanı işlemlerini kaydetme ve language' deki php array dosyalarını vue-i18n için gerekli olan js dosyasına çevirme işlemlerini yapar.
 
