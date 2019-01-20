@@ -4,6 +4,7 @@ extract($params);
 
 $modelVar = '$'.$modelVarName;
 
+$imgHtml = '';
 if ($imgModelPath) {
     $imgHtml = '
         $images = '.$modelVar.'->images;
