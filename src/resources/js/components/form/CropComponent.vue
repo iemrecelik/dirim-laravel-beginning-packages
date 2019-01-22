@@ -2,7 +2,9 @@
 	<div class="row">
 		
 		<div class="col-sm-12">
-			<div v-if="isCollapseRender('single')">
+			<div v-if="isCollapseRender('single')"
+      class="d-inline"
+      >
         <a v-for="(filt, key, index) in filters"
           :key="index + '-clp-render'"
           class="mr-4" 
@@ -16,15 +18,19 @@
         </a>
       </div>
 
-	    <a v-if="isCollapseRender('multi')" 
-	      data-toggle="collapse" 
-	      :href="multiCollapseHref" 
-	      role="button" 
-	      aria-expanded="true" 
-	      :aria-controls="allCollapseIDName"
-	    >
-	    	{{$t('messages.all_collapse')}}
-	    </a>
+	    <div v-if="isCollapseRender('multi')"
+      class="d-inline"
+      >
+        <a data-toggle="collapse" 
+          :href="multiCollapseHref" 
+          role="button" 
+          aria-expanded="true" 
+          :aria-controls="allCollapseIDName"
+        >
+          {{$t('messages.all_collapse')}}
+        </a>
+      </div>
+
 		</div>
 
     <div 
