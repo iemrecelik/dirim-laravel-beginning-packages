@@ -1,6 +1,48 @@
 <?php
 return function($params){
 extract($params);
+
+if ($imgModelPath) {
+  $imgFormComp = '
+  <images-form-component
+    :ppitem="imgs"
+    :ppfiltName="filtName"
+    :ppcropsettings="cropSettings"
+  >
+  </images-form-component>
+  ';
+  $imgFormComp = trim($imgFormComp);
+  $importImg = 'import imagesFormComponent from \'./ImagesFormComponent\';';
+  
+  $imgProp = '  
+    ppimgs: {
+      type: Array,
+      required: true,
+    },
+    ppimgfilters: {
+      type: Object,
+      required: true,
+    },
+  ';
+  $imgProp = trim($imgProp);
+
+  $setImgFilts = '\'setImgFilters\',';
+  $createdSetImgFilt = 'this.setImgFilters(this.ppimgfilters);';
+  $imgCompTag = '\'images-form-component\': imagesFormComponent,';
+  $imgData = '
+      imgs: this.ppimgs,
+      filtName: \''.$modelVarName.'ImagesFilt\',
+  ';
+  $imgData = trim($imgData);
+} else {
+  $imgFormComp = '';
+  $importImg = '';
+  $imgProp = '';
+  $setImgFilts = '';
+  $createdSetImgFilt = '';
+  $imgCompTag = '';
+  $imgData = '';
+}
   
 return '
 <template>
@@ -26,12 +68,7 @@ return '
     :ppitem="item"
   >
   </edit-form-component>
-  <images-form-component
-    :ppitem="imgs"
-    :ppfiltName="filtName"
-    :ppcropsettings="cropSettings"
-  >
-  </images-form-component>
+  '.$imgFormComp.'
   <button type="submit" class="btn btn-primary">
     {{ $t(\'messages.update\') }}
   </button>
@@ -41,7 +78,7 @@ return '
 
 <script>
 import editFormComponent from \'./EditFormComponent\';
-import imagesFormComponent from \'./ImagesFormComponent\';
+'.$importImg.'
 
 import { mapState, mapMutations } from \'vuex\';
 
@@ -50,8 +87,7 @@ export default {
   data () {
     return {
       item: this.ppitem,
-      imgs: this.ppimgs,
-      filtName: \''.$modelVarName.'ImagesFilt\',
+      '.$imgData.'
       cropSettings: {
         cropFrameClass: \'col\',
         cropRender: true,
@@ -64,14 +100,7 @@ export default {
       type: Object,
       required: true,
     },
-    ppimgs: {
-      type: Array,
-      required: true,
-    },
-    ppimgfilters: {
-      type: Object,
-      required: true,
-    },
+    '.$imgProp.'
     pproutes: {
       type: Object,
       required: true,
@@ -104,7 +133,7 @@ export default {
       \'setRoutes\',
       \'setErrors\',
       \'setSucceed\',
-      \'setImgFilters\',
+      '.$setImgFilts.'
       \'setOld\',
     ]),
   },
@@ -112,12 +141,12 @@ export default {
     this.setRoutes(this.pproutes);
     this.setErrors(this.pperrors);
     this.setSucceed(this.ppsuccess);
-    this.setImgFilters(this.ppimgfilters);
+    '.$createdSetImgFilt.'
     this.setOld(JSON.parse(this.ppoldinput));
   },
   components: {
     \'edit-form-component\': editFormComponent,
-    \'images-form-component\': imagesFormComponent,
+    '.$imgCompTag.'
   }
 }
 </script>

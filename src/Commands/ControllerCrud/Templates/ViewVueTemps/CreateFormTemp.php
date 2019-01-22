@@ -3,8 +3,6 @@ return function($params){
 
 extract($params);
 
-// $fields = array_merge($addLangFields, $addFields);
-
 if ($addLangFields){
   $formInputs = "\n\t<create-lang-form-component>"
                 ."</create-lang-form-component>\n";

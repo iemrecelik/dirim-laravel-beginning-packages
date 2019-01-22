@@ -2,6 +2,39 @@
 return function($params){
 extract($params);
 
+if ($imgModelPath) {
+  $importImg = 'import imagesFormComponent from \'./ImagesFormComponent\';';
+  $imgFormComp = '
+  <images-form-component
+  :ppfiltName="filtName"
+  :ppcropsettings="cropSettings"
+  >
+  </images-form-component>
+  ';
+  $imgFormComp = trim($imgFormComp);
+
+  $imgProp = '
+    ppimgfilters: {
+      type: Object,
+      required: true,
+    },
+  ';
+  $imgProp = trim($imgProp);
+
+  $setImgFilts = '\'setImgFilters\',';
+  $createdSetImgFilt = 'this.setImgFilters(this.ppimgfilters);';
+  $imgCompTag = '\'images-form-component\': imagesFormComponent,';
+  $imgData = 'filtName: \''.$modelVarName.'ImagesFilt\',';
+} else {
+  $imgFormComp = '';
+  $importImg = '';
+  $imgProp = '';
+  $setImgFilts = '';
+  $createdSetImgFilt = '';
+  $imgCompTag = '';
+  $imgData = '';
+}
+
 return '
 <template>
 <form 
@@ -19,11 +52,7 @@ return '
   </form-form-component>
 
   <create-form-component></create-form-component>
-  <images-form-component
-  :ppfiltName="filtName"
-  :ppcropsettings="cropSettings"
-  >
-  </images-form-component>
+  '.$imgFormComp.'
   <button type="submit" class="btn btn-primary">
       {{ $t(\'messages.save\') }}
   </button>
@@ -32,7 +61,7 @@ return '
 
 <script>
 import createFormComponent from \'./CreateFormComponent\';
-import imagesFormComponent from \'./ImagesFormComponent\';
+'.$importImg.'
 
 import { mapState, mapMutations } from \'vuex\';
 
@@ -40,7 +69,7 @@ export default {
   name: \'CreateAdvancedComponent\',
   data () {
     return {
-      filtName: \''.$modelVarName.'ImagesFilt\',
+      '.$imgData.'
       cropSettings: {
         cropFrameClass: \'col\',
         cropRender: true,
@@ -49,10 +78,7 @@ export default {
     };
   },
   props: {
-    ppimgfilters: {
-      type: Object,
-      required: true,
-    },
+    '.$imgProp.'
     pproutes: {
       type: Object,
       required: true,
@@ -85,7 +111,7 @@ export default {
       \'setRoutes\',
       \'setErrors\',
       \'setSucceed\',
-      \'setImgFilters\',
+      '.$setImgFilts.'
       \'setOld\',
     ]),
   },
@@ -93,12 +119,12 @@ export default {
     this.setRoutes(this.pproutes);
     this.setErrors(this.pperrors);
     this.setSucceed(this.ppsuccess);
-    this.setImgFilters(this.ppimgfilters);
+    '.$createdSetImgFilt.'
     this.setOld(JSON.parse(this.ppoldinput));
   },
   components: {
     \'create-form-component\': createFormComponent,
-    \'images-form-component\': imagesFormComponent,
+    '.$imgCompTag.'
   }
 }
 </script>

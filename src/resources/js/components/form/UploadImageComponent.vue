@@ -92,7 +92,7 @@ export default {
       prwAttr: {
         src: this.getImageFiltUrl(this.ppvalue.val.img_path, '_1')
       },
-      imgID: this.ppvalue.val.id,
+      imgID: this.ppvalue.val.img_id,
       funcs: this.ppfuncs,
     };
   },

@@ -6,7 +6,7 @@ $modelVar = '$'.$modelVarName;
 $lwMdPath = strtolower($modelPath);
 $lwMdPath = str_replace('/', '.', $lwMdPath);
 
-
+$langHtml = '';
 if(isset($langModelName)){
 
     $langHtml = '
@@ -21,7 +21,7 @@ if(isset($langModelName)){
 $unset = '';
 $loadImg = '';
 if (isset($imgModelPath)) {
-    $unset = str_repeat(' ', 8)."unset(\$params[\'images\']);\n";
+    $unset = str_repeat(' ', 8)."unset(\$params['images']);\n";
 
     $loadImg = str_repeat(' ', 8)
             ."\$this->loadImages(\$request, {$modelVar});\n";

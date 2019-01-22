@@ -165,7 +165,7 @@ export default {
     },
     oldValue: function(field, langShort){
       
-      let oldVal = null;
+      let oldVal = false;
       let isNestedItem = _.has(
         this.old, 
         [\'langs\', langShort, field]
@@ -188,7 +188,7 @@ export default {
       
       val = this.oldValue(field, lang.lang_short_name);
       
-      if(val === null)
+      if(val === false)
         val = this.value(field, lang);
 
       return val;

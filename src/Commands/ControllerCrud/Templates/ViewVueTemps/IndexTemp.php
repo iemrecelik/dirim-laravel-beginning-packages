@@ -56,10 +56,59 @@ $editBtnHtml = '
         </span>`;
     },
 ';
+
+$addBtn = '
+      <tr>
+        <th colspan="'.(count($fields) + 1).'">
+          <button type="button" class="btn btn-primary"
+            data-toggle="modal" 
+            :data-target="modalSelector"
+            :data-datas=\'`{"formTitleName": "\${formTitleName}"}`\'
+            :data-component="`${formTitleName}-create-component`"
+          >
+            {{ $t(\'messages.add\') }}
+          </button>
+        </th>
+      </tr>
+';
+$addBtn = trim($addBtn);
+
+$importCrudComp = '
+import createComponent from \'./CreateComponent\';
+import editComponent from \'./EditComponent\';
+';
+$importCrudComp = trim($importCrudComp);
+
+$crudComp = '
+    [formTitleName + \'-create-component\']: createComponent,
+    [formTitleName + \'-edit-component\']: editComponent,
+';
+$crudComp = trim($crudComp);
 }else{
   $editBtnRow = '';
   $editBtnHtml = '';
+  
+
+  $addBtn = '
+      <tr>
+        <th colspan="'.(count($fields) + 1).'">
+          <a href="">
+            {{ $t(\'messages.add\') }}
+          </button>
+        </th>
+      </tr>
+  ';
+  $addBtn = trim($addBtn);
+
+  $importCrudComp = '';
+  $crudComp = '';
 }
+
+$crudComp .= '
+    [formTitleName + \'-show-component\']: showComponent,
+    [formTitleName + \'-delete-component\']: deleteComponent,
+';
+$crudComp = trim($crudComp);
 
 if ($imgModelName) {
 
@@ -112,18 +161,7 @@ return '
       </tr>
     </thead>
     <tfoot>
-      <tr>
-        <th colspan="'.(count($fields) + 1).'">
-          <button type="button" class="btn btn-primary"
-            data-toggle="modal" 
-            :data-target="modalSelector"
-            :data-datas=\'`{"formTitleName": "\${formTitleName}"}`\'
-            :data-component="`${formTitleName}-create-component`"
-          >
-            {{ $t(\'messages.add\') }}
-          </button>
-        </th>
-      </tr>
+      '.$addBtn.'
     </tfoot>
   </table>
 
@@ -146,8 +184,7 @@ return '
 </template>
 
 <script>
-import createComponent from \'./CreateComponent\';
-import editComponent from \'./EditComponent\';
+'.$importCrudComp.'
 import showComponent from \'./ShowComponent\';
 import deleteComponent from \'./DeleteComponent\';
 '.trim($importImagesComp).'
@@ -259,10 +296,7 @@ export default {
     });
   },
   components: {
-    [formTitleName + \'-create-component\']: createComponent,
-    [formTitleName + \'-edit-component\']: editComponent,
-    [formTitleName + \'-show-component\']: showComponent,
-    [formTitleName + \'-delete-component\']: deleteComponent,
+    '.$crudComp.'
     '.trim($imagesComp).'
   }
 }

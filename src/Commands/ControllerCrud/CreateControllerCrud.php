@@ -1163,14 +1163,16 @@ class CreateControllerCrud extends Command
                     'Index.BladeTemp' => 'modelName|modelVarName|baseTmpPaths',
                 ];
                 $tmpFileNames = [
-                    'CreateAdvancedTemp' => 'modelVarName',
+                    'CreateAdvancedTemp' => 'modelVarName|imgModelPath',
                     'CreateLangFormTemp' => '
                         addLangFields|fieldDependsOnLang
                         |langFieldIDName
                     ',
                     'CreateFormTemp' => 'addLangFields|addFields',
                     'DeleteTemp' => '',
-                    'EditAdvancedTemp' => 'modelVarName|fieldIDName',
+                    'EditAdvancedTemp' => '
+                        modelVarName|fieldIDName|imgModelPath
+                    ',
                     'EditLangFormTemp' => '
                         addLangFields|fieldDependsOnLang
                         |langFieldIDName|langModelName
@@ -1193,7 +1195,7 @@ class CreateControllerCrud extends Command
                     'Index.BladeTemp' => 'modelName|modelVarName|baseTmpPaths',
                 ];
                 $tmpFileNames = [
-                    'CreateAdvancedTemp' => 'modelVarName',
+                    'CreateAdvancedTemp' => 'modelVarName|imgModelPath',
                     'CreateLangFormTemp' => '
                         addLangFields|fieldDependsOnLang
                         |langFieldIDName
@@ -1201,7 +1203,9 @@ class CreateControllerCrud extends Command
                     'CreateTemp' => '',
                     'CreateFormTemp' => 'addLangFields|addFields',
                     'DeleteTemp' => '',
-                    'EditAdvancedTemp' => 'modelVarName|fieldIDName',
+                    'EditAdvancedTemp' => '
+                        modelVarName|fieldIDName|imgModelPath
+                    ',
                     'EditLangFormTemp' => '
                         addLangFields|fieldDependsOnLang
                         |langFieldIDName|langModelName
@@ -1441,7 +1445,7 @@ class CreateControllerCrud extends Command
                 break;
         }
 
-        if ($this->crudType !== 'modal') {
+        if ($this->imgModelPath) {
             $tmpFileNames = array_merge($tmpFileNames, [
                 'GetImagesFunc' => 'modelName|modelVarName',
                 'UpdateImagesFunc' => '
