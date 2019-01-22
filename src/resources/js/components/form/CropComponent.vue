@@ -2,17 +2,19 @@
 	<div class="row">
 		
 		<div class="col-sm-12">
-			<a v-if="isCollapseRender('single')" 
-				v-for="(filt, key, index) in filters"
-				class="mr-4" 
-	      data-toggle="collapse" 
-	      :href="collapseHref(index)" 
-	      role="button" 
-	      aria-expanded="true" 
-	      :aria-controls="collapseIDName(index)"
-	    >
-	    	{{ resizeInfo(filt) }}
-	    </a>
+			<div v-if="isCollapseRender('single')">
+        <a v-for="(filt, key, index) in filters"
+          :key="index + '-clp-render'"
+          class="mr-4" 
+          data-toggle="collapse" 
+          :href="collapseHref(index)" 
+          role="button" 
+          aria-expanded="true" 
+          :aria-controls="collapseIDName(index)"
+        >
+          {{ resizeInfo(filt) }}
+        </a>
+      </div>
 
 	    <a v-if="isCollapseRender('multi')" 
 	      data-toggle="collapse" 
@@ -28,6 +30,7 @@
     <div 
     	:class="cropFrameClasses" 
     	v-for="(filt, key, index) in filters"
+      :key ="index+'-crp-frm-cls'"
     	:id="collapseIDName(index)"
     >
       <div>
