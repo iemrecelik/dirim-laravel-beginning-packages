@@ -62,9 +62,9 @@ class ImgFileUpload
         $img = Image::make($this->file);
 
         foreach ($filter as $key => $val) {
-            if (is_array($val)) {
+            if (is_array($val) && count($val) > 0) {
                 $img->$key(...$val);
-            } else {
+            } elseif (is_string($val)) {
                 $img->$key($val);
             }
         }

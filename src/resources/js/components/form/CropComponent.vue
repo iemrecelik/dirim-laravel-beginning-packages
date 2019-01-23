@@ -40,7 +40,7 @@
     	:id="collapseIDName(index)"
     >
       <div>
-        <img 
+        <img v-if="filt.hasOwnProperty('resize')"
         	:data-filt="key"
         	:src="src"
         	:class="imgClassName"
@@ -134,9 +134,15 @@ export default {
     collapseHref: function (data) {
       return '#' + this.collapseIDName(data);
     },
-
+    
     resizeInfo: function (filt) {
-      return filt.resize[0] + ' x ' + filt.resize[1];
+      let resizeInfo = null;
+      
+      if (filt.hasOwnProperty('resize')) {
+        resizeInfo = filt.resize[0] + ' x ' + filt.resize[1];  
+      }
+
+      return resizeInfo;
     },
   },
   mounted(){

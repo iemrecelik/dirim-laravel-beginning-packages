@@ -7,9 +7,11 @@ return '
         $cropFilt = [];
 
         foreach ($crop as $key => $val) {
-            $cropFilt[$key][\'crop\'] = explode(\'*?*\', $val);
+            if (isset($val)) {
+                $cropFilt[$key][\'crop\'] = explode(\'*?*\', $val);
+            }
         }
-
+        
         return $cropFilt;
     }
 ';
