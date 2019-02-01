@@ -19,4 +19,11 @@ return [
     "baseTmpPaths" => [
         "all" => "crudBase.index"
     ],
+
+    /**
+     * Roles And Permissions
+     */
+    "rolesAndPermissions" => [
+        "enable" => false,
+    ],
 ];

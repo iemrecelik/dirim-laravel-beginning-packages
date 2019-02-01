@@ -6,6 +6,9 @@ use Illuminate\Support\ServiceProvider;
 use Dirim\BeginningPackage\Observers\QueryLoggingObserver;
 use Dirim\BeginningPackage\Commands\ConvertLangsToVueTranslateJS;
 use Dirim\BeginningPackage\Commands\ControllerCrud\CreateControllerCrud;
+use Cache;
+use Gate;
+use App\Models\Authorization\Permission;
 
 class BeginningPackServiceProvider extends ServiceProvider
 {
@@ -27,6 +30,10 @@ class BeginningPackServiceProvider extends ServiceProvider
         }
 
         $this->queryLogObserversInclude();
+
+        if (config('beginningPack.rolesAndPermissions.enable')) {
+            $this->loadPermissions();
+        }
     }
 
     /**
@@ -99,5 +106,33 @@ class BeginningPackServiceProvider extends ServiceProvider
         }
 
         return $modelClassNames;
+    }
+
+    protected function loadPermissions()
+    {
+        $perms = Cache::rememberForever('permissions', function () {
+            return Permission::all();
+        });
+
+        foreach ($perms as $perm) {
+            Gate::define($perm->perm_raw_name, function ($user) use ($perm) {
+                $userPerms = Cache::tags('adminUsers', $user->user_id)
+                ->rememberForever(
+                    'permissions',
+                    function () use ($user) {
+                        return Permission::fetchUserPermissons(
+                            $user->user_id
+                        )->get();
+                    }
+                );
+
+                return $userPerms->contains(
+                    'perm_raw_name',
+                    $perm->perm_raw_name
+                );
+            });
+        }
+        
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
     }
 }

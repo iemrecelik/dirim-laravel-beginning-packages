@@ -73,6 +73,9 @@ $addBtn = '
 ';
 $addBtn = trim($addBtn);
 
+$redirectCreatePage = '';
+$createUrl = '';
+
 $importCrudComp = '
 import createComponent from \'./CreateComponent\';
 import editComponent from \'./EditComponent\';
@@ -85,20 +88,45 @@ $crudComp = '
 ';
 $crudComp = trim($crudComp);
 }else{
-  $editBtnRow = '';
-  $editBtnHtml = '';
-  
+  $editBtnRow = 'row += this.editBtnHtml(id);';
+  $editBtnHtml = '
+    editBtnHtml: function(id){
+      return  `
+        <span 
+          data-toggle="tooltip" data-placement="top" 
+          title="${this.$t(\'messages.edit\')}"
+        >
+          <a class="btn btn-sm btn-success"
+            href="${this.routes.index}/${id}/edit"
+          >
+            <i class="icon ion-md-create"></i>
+          </a>
+        </span>`;
+    },
+  ';
 
   $addBtn = '
       <tr>
         <th colspan="'.(count($fields) + 1).'">
-          <a href="">
+          <button type="button" class="btn btn-primary"
+          @click="redirectCreatePage"
+          >
             {{ $t(\'messages.add\') }}
           </button>
         </th>
       </tr>
   ';
   $addBtn = trim($addBtn);
+  $redirectCreatePage = '
+    redirectCreatePage: function () {
+      window.location.href = this.createUrl;
+    },
+  ';
+  $createUrl = '
+    createUrl: function(){
+      return this.routes.index + \'/create\';
+    },
+  ';
 
   $importCrudComp = '';
   $crudComp = '';
@@ -111,6 +139,24 @@ $crudComp .= '
 $crudComp = trim($crudComp);
 
 if ($imgModelName) {
+
+$imgFilters = '
+    \'imgFilters\',
+';
+
+$setImgFilters = '
+    \'setImgFilters\',
+';
+$setImgFiltersCreated = '
+    this.setImgFilters(this.ppimgfilters);
+';
+
+$ppimgfilt = '
+    ppimgfilters: {
+      type: Object,
+      required: true,
+    },
+';
 
 $imageBtnRow = 'row += this.imageBtnHtml(id);';
 
@@ -143,6 +189,10 @@ $imageBtnHtml = '
     },
 ';
 }else{
+  $imgFilters = '';
+  $setImgFilters = '';
+  $setImgFiltersCreated = '';
+  $ppimgfilt = '';
   $importImagesComp = '';
   $imagesComp = '';
   $imageBtnRow = '';
@@ -210,19 +260,14 @@ export default {
     pperrors: {
       type: Object,
       required: true,
-    },
-    ppimgfilters: {
-      type: Object,
-      required: true,
-    },
+    },'.$ppimgfilt.'
   },
   computed: {
     ...mapState([
       \'formModalBody\',
       \'routes\',
       \'errors\',
-      \'token\',
-      \'imgFilters\',
+      \'token\','.$imgFilters.'
     ]),
     cformTitleName: function(){
       return _.capitalize(this.formTitleName);
@@ -232,14 +277,13 @@ export default {
     },
     modalSelector: function(){
       return \'#\' + this.modalIDName;
-    },
+    },'.$createUrl.'
   },
   methods: {
     ...mapMutations([
       \'setRoutes\',
       \'setErrors\',
-      \'setEditItem\',
-      \'setImgFilters\',
+      \'setEditItem\','.$setImgFilters.'
     ]),
     processesRow: function(id){
       let row = \'\';
@@ -267,12 +311,11 @@ export default {
           </button>
         </span>`;
     },
-    '.$imageBtnHtml.'
+    '.$imageBtnHtml.$redirectCreatePage.'
   },
   created(){
     this.setRoutes(this.pproutes);
-    this.setErrors(this.pperrors);
-    this.setImgFilters(this.ppimgfilters);
+    this.setErrors(this.pperrors);'.$setImgFiltersCreated.'
   },
   mounted(){
     this.showModalBody(this.modalSelector);

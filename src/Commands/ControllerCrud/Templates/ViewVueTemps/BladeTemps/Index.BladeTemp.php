@@ -4,6 +4,18 @@ extract($params);
 
 $lwModelName = strtolower($modelName);
 
+
+$ppImgFilt = '';
+if (isset($imgModelPath)) {
+  $ppImgFilt = '
+    :ppimgfilters="{ 
+      '.$modelVarName.'ImagesFilt: {{ 
+        json_encode(config(\'imageFilters.filter.'.$modelVarName.'ImagesFilt\')) 
+      }}
+    }"
+  ';
+}
+
 return '
 @extends(config(\''.$baseTmpPaths.'\'))
 @section(\'contents\')
@@ -12,12 +24,7 @@ return '
       index: \'{{ route(\'admin.'.$lwModelName.'.index\') }}\', 
       dataList: \'{{ route(\'admin.'.$lwModelName.'.dataList\') }}\', 
     }"
-    :pperrors="{{ count($errors) > 0?$errors:\'{}\' }}"
-    :ppimgfilters="{
-      '.$modelVarName.'ImagesFilt: {{ 
-        json_encode(config(\'imageFilters.filter.'.$modelVarName.'ImagesFilt\')) 
-      }}
-    }"
+    :pperrors="{{ count($errors) > 0?$errors:\'{}\' }}"'.$ppImgFilt.'
   >
   </'.$lwModelName.'-component>
 @endsection

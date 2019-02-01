@@ -11,6 +11,7 @@ $stablePublicComponents = __DIR__.'/../resources/js/components';
 $beginningPackScss = __DIR__.'/../resources/sass/beginningPacks';
 $beginningPackCss = __DIR__.'/../resources/sass/css';
 $beginningPackCssPlugins = __DIR__.'/../resources/sass/plugins';
+$rolesAndPermissionsModels = __DIR__.'/../Models/Authorization';
 
 return [
     /**
@@ -45,6 +46,9 @@ return [
     'stablePublicComponents' => [
         $stablePublicComponents => resource_path('js/components'),
     ],
+    'rolesAndPermissionsModels' => [
+        $rolesAndPermissionsModels => app_path('Models'),
+    ],
     'scriptSnippets' => [
         $mainjsPath => resource_path('js/jquery/main.js'),
         $mainajaxjsPath => resource_path('js/jquery/main-ajax.js'),
@@ -56,5 +60,6 @@ return [
         $beginningPackCss => resource_path('sass/css'),
         $beginningPackCssPlugins => resource_path('sass/plugins'),
         $stablePublicComponents => resource_path('js/components'),
+        $rolesAndPermissionsModels => app_path('Models'),
     ]
 ];

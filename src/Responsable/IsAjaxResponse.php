@@ -26,8 +26,10 @@ class IsAjaxResponse implements Responsable
     {
         if ($request->ajax()) {
             return $this->ajaxRes;
-        } else {
+        } elseif ($this->view !== null && is_string($this->view)) {
             return view($this->view, $this->arguments);
+        } else {
+            return abort(404);
         }
     }
 }

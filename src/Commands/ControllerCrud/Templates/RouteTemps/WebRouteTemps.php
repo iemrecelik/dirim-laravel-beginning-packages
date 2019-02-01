@@ -20,9 +20,16 @@ if($crudType !== 'modal'){
         )
         ->name(\''.$modelName.'.advancedStore\');
     ';
+
+    $resource = 'Route::resource(\''.$modelName.'\', \''.$controllerName.'\');';
+} else {
+    $resource = 'Route::resource(\''.$modelName.'\', \''.$controllerName.'\')
+            ->except([
+                \'create\', \'edit\', \'show\'
+            ]);';
 }
 
-if($imgModelName || $crudType !== 'modal'){
+if($imgModelName){
     $routes .= '
         Route::get(
             \''.$modelName.'/{'.$modelVarName.'}/edit-images\',
@@ -51,7 +58,7 @@ if(isset($langModelName)){
 }
 
 return '
-        Route::resource(\''.$modelName.'\', \''.$controllerName.'\');
+        '.$resource.'
         Route::post(
             \''.$modelName.'/data-list\',
             \''.$controllerName.'@getDataList\'

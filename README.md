@@ -9,6 +9,11 @@ composer require dirim/laravel-beginning-packages
 ```
 
 ## Gerekli Paketler
+### Predis
+Tag'larla cache'lemek için predis yüklü olması gereklidir.
+```
+composer require predis/predis
+```
 ### Image Intervention
 Resim resize işlemleri için bu paketi yüklemeniz lazım. Aşağıdaki kodu çalıştırabilirsiniz. Yada bu adresinden yükleme işlemi gerçekleştirin.
 ```

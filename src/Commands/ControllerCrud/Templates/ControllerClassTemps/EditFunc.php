@@ -4,11 +4,24 @@ extract($params);
 
 $modelVar = '$'.$modelVarName;
 
-$lwMdPath = strtolower($modelPath);
 
+if ($crudType !== 'modal') {
+    $lwMdPath = strtolower($modelPath);
+    $lwMdPath = "'{$lwMdPath}/edit',";
+
+    $item = "['item' => {$modelVar}]";
+
+    $resInfo = "
+            $lwMdPath
+            $item
+    ";
+} else {
+    $resInfo = '';
+}
+
+$isAjaxResponseArgs = empty($resInfo) ? $modelVar : $modelVar.','.$resInfo;
 
 $foreignKey = strtolower($modelName).'.'.$fieldIDName;
-
 
 if(empty($langModelName)){
 
@@ -22,9 +35,7 @@ $funcHtml = '
     public function edit('.$modelName.' '.$modelVar.')
     {
         return new IsAjaxResponse(
-            '.$modelVar.',
-            \''.$lwMdPath.'/edit\',
-            [\'item\' => '.$modelVar.']
+            '.$isAjaxResponseArgs.'
         );
     }
 ';
@@ -45,9 +56,7 @@ $funcHtml = '
         ->first();
 
         return new IsAjaxResponse(
-            '.$modelVar.',
-            \''.$lwMdPath.'/edit\',
-            [\'item\' => '.$modelVar.']
+            '.$isAjaxResponseArgs.'
         );
     }
 ';

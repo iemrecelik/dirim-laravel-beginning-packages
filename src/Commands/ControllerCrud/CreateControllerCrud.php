@@ -1139,7 +1139,9 @@ class CreateControllerCrud extends Command
         switch ($this->crudType) {
             case 'modal':
                 $bladeTmpNames = [
-                    'Index.BladeTemp' => 'modelName|modelVarName|baseTmpPaths',
+                    'Index.BladeTemp' => '
+                        modelName|modelVarName|baseTmpPaths|imgModelPath
+                    ',
                 ];
                 $tmpFileNames = [
                     'CreateTemp' => '',
@@ -1158,24 +1160,22 @@ class CreateControllerCrud extends Command
 
             case 'advanced':
                 $bladeTmpNames = [
-                    'Create.BladeTemp' => 'modelName|modelVarName|baseTmpPaths',
-                    'Edit.BladeTemp' => 'modelName|modelVarName|baseTmpPaths',
-                    'Index.BladeTemp' => 'modelName|modelVarName|baseTmpPaths',
+                    'Create.BladeTemp' => '
+                        modelName|modelVarName|baseTmpPaths|imgModelPath
+                    ',
+                    'Edit.BladeTemp' => '
+                        modelName|modelVarName|baseTmpPaths|imgModelPath
+                    ',
+                    'Index.BladeTemp' => '
+                        modelName|modelVarName|baseTmpPaths|imgModelPath
+                    ',
                 ];
                 $tmpFileNames = [
                     'CreateAdvancedTemp' => 'modelVarName|imgModelPath',
-                    'CreateLangFormTemp' => '
-                        addLangFields|fieldDependsOnLang
-                        |langFieldIDName
-                    ',
                     'CreateFormTemp' => 'addLangFields|addFields',
                     'DeleteTemp' => '',
                     'EditAdvancedTemp' => '
                         modelVarName|fieldIDName|imgModelPath
-                    ',
-                    'EditLangFormTemp' => '
-                        addLangFields|fieldDependsOnLang
-                        |langFieldIDName|langModelName
                     ',
                     'EditFormTemp' => 'addLangFields|addFields',
                     'FormModalTemp' => '',
@@ -1190,25 +1190,23 @@ class CreateControllerCrud extends Command
             
             case 'all':
                 $bladeTmpNames = [
-                    'Create.BladeTemp' => 'modelName|modelVarName|baseTmpPaths',
-                    'Edit.BladeTemp' => 'modelName|modelVarName|baseTmpPaths',
-                    'Index.BladeTemp' => 'modelName|modelVarName|baseTmpPaths',
+                    'Create.BladeTemp' => '
+                        modelName|modelVarName|baseTmpPaths|imgModelPath
+                    ',
+                    'Edit.BladeTemp' => '
+                        modelName|modelVarName|baseTmpPaths|imgModelPath
+                    ',
+                    'Index.BladeTemp' => '
+                        modelName|modelVarName|baseTmpPaths|imgModelPath
+                    ',
                 ];
                 $tmpFileNames = [
                     'CreateAdvancedTemp' => 'modelVarName|imgModelPath',
-                    'CreateLangFormTemp' => '
-                        addLangFields|fieldDependsOnLang
-                        |langFieldIDName
-                    ',
                     'CreateTemp' => '',
                     'CreateFormTemp' => 'addLangFields|addFields',
                     'DeleteTemp' => '',
                     'EditAdvancedTemp' => '
                         modelVarName|fieldIDName|imgModelPath
-                    ',
-                    'EditLangFormTemp' => '
-                        addLangFields|fieldDependsOnLang
-                        |langFieldIDName|langModelName
                     ',
                     'EditTemp' => '',
                     'EditFormTemp' => 'addLangFields|addFields',
@@ -1221,6 +1219,18 @@ class CreateControllerCrud extends Command
                     'ShowTemp' => '',
                 ];
                 break;
+        }
+
+        if ($this->langModelName) {
+            $tmpFileNames['CreateLangFormTemp'] = '
+                addLangFields|fieldDependsOnLang
+                |langFieldIDName
+            ';
+
+            $tmpFileNames['EditLangFormTemp'] = '
+                addLangFields|fieldDependsOnLang
+                |langFieldIDName|langModelName
+            ';
         }
 
         if ($this->imgModelName) {
@@ -1358,7 +1368,7 @@ class CreateControllerCrud extends Command
             'ShowFunc' => 'modelName|modelVarName|modelUsePath',
             'EditFunc' => '
                 modelUsePath|modelName|modelVarName|modelPath
-                |fieldIDName|langModelName
+                |fieldIDName|langModelName|crudType
             ',
             'UpdateFunc' => '
                 modelName|modelVarName|reqRulesName|modelUsePath
@@ -1378,7 +1388,7 @@ class CreateControllerCrud extends Command
             'ShowFunc' => 'modelName|modelVarName|modelUsePath',
             'EditFunc' => '
                 modelUsePath|modelName|modelVarName|modelPath
-                |fieldIDName|langModelName
+                |fieldIDName|langModelName|crudType
             ',
             'DestroyFunc' => '
                 modelName|modelVarName|modelUsePath|imgModelPath
@@ -1404,7 +1414,7 @@ class CreateControllerCrud extends Command
             'ShowFunc' => 'modelName|modelVarName|modelUsePath',
             'EditFunc' => '
                 modelUsePath|modelName|modelVarName|modelPath
-                |fieldIDName|langModelName
+                |fieldIDName|langModelName|crudType
             ',
             'UpdateFunc' => '
                 modelName|modelVarName|reqRulesName|modelUsePath
