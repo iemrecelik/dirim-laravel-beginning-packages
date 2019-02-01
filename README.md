@@ -620,3 +620,5 @@ Eğer config dosyasınıza crud dosyası oluşturup aşağıdaki :
 ```
 
 yukarıdaki bilgileri doldurursanız. Sistem otomatik tüm bilgileri tanıyacaktır. Consoldan kendi elinizle bilgileri doldurmak isterseniz. Manaul seçeneğini seçiniz.
+
+yeni bilgiler
