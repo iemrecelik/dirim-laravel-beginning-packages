@@ -23,7 +23,7 @@ import formModalComponent from \'./FormModalComponent\';
 import { mapState, mapMutations, mapActions } from \'vuex\';
 
 export default {
-  name: \'editComponent\',
+  name: \'DeleteComponent\',
   data () {
     return {
       datas: this.ppdatas,

@@ -3,7 +3,7 @@ return function ($params) {
 
 extract($params);
 
-$tableName = strtolower(snake_case($modelName));
+$table = $table.'_lang';
 
 $modelPrefix = $modelPrefix ?? '';
 $modelRepoUsePath =  isset($modelRepoNamespace)
@@ -61,7 +61,7 @@ use Illuminate\Database\Eloquent\Model;
 '.$modelRepoUsePath.'
 class '.$modelName.' extends Model
 {'.$modelRepositoryUse.'
-    protected $table = \''.$tableName.'\';
+    protected $table = \''.$table.'\';
 
     protected $primaryKey = \''.$primaryKey.'\';
     '.rtrim($fillable).'

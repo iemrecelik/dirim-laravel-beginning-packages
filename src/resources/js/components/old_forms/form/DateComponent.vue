@@ -1,14 +1,9 @@
 <template>
 	<div class="form-group">
-    <label v-if="isLabel && labelMsgRequired" 
-      :for="idName"
-    >
-      {{ fieldLabelName }}
-    </label>
-    <error-msg-component v-if="errorMsgRequired"
+    <label v-if="isLabel" :for="idName">{{ fieldLabelName }}</label>
+    <error-msg-component
       :ppsettings="{
-        fieldName,
-        transFieldName,
+    	 fieldName 
       }"
     >
     </error-msg-component>
@@ -35,13 +30,6 @@ export default {
       unixTimeInput: '',
       label: this.ppvalue.settings.label,
       inputClass: 'form-control ' + this.ppvalue.settings.inputClass,
-      phpunix: this.ppvalue.settings.phpunix === false ? false : true,
-      dateFormatType: this.ppvalue.settings.dateFormatType || 'short',
-      translateFieldName: this.ppvalue.settings.transFieldName,
-      labelName: this.ppvalue.settings.labelName,
-      labelRequired: this.ppvalue.settings.labelRequired || false,
-      labelMsgRequired: this.ppvalue.settings.labelMsgRequired !== false,
-      errorMsgRequired: this.ppvalue.settings.errorMsgRequired !== false,
     };
   },
   props: {
@@ -63,11 +51,6 @@ export default {
     isLabel: function(){
       return this.label !== undefined ? this.label : true;
     },
-    transFieldName: function(){
-      let labelName = this.labelName ? this.$t('messages.'+this.labelName) : null;
-
-      return this.translateFieldName || labelName;
-    },
     filtFieldName: function(){
       return this.funcs.filtFieldName(this.fieldName);
     },
@@ -84,23 +67,13 @@ export default {
       return this.ppvalue.val;
     },
     fieldLabelName: function(){
-      let value;
-      
-      if (this.transFieldName) {
-        value = this.transFieldName
-      } else {
-        value = this.funcs.fieldLabelName(this.filtFieldName)
-      }
-
-      return value;
+      return this.funcs.fieldLabelName(this.filtFieldName);
     },
   },
   mounted(){
   	this.datepicker({ 
       id: '#' + this.idName, 
       value: this.value,
-      phpunix: this.phpunix,
-      dateFormatType: this.dateFormatType,
       settings: {
         onSelect: (dateStr, dateObj) => {
           let date = dateObj.currentYear + '.'

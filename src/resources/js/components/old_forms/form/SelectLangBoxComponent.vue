@@ -1,6 +1,6 @@
 <template>
 	<div class="form-group">
-    <label :for="idName" v-if="labelMsgRequired">
+    <label :for="idName">
       {{ fieldLabelName }}
     </label>
     
@@ -53,11 +53,6 @@ export default {
       fieldName: this.ppfieldname,
       selectedLang: '',
       funcs: this.ppfuncs,
-      translateFieldName: this.ppvalue.settings.transFieldName,
-      labelName: this.ppvalue.settings.labelName,
-      labelRequired: this.ppvalue.settings.labelRequired || false,
-      labelMsgRequired: this.ppvalue.settings.labelMsgRequired !== false,
-      errorMsgRequired: this.ppvalue.settings.errorMsgRequired !== false,
     };
   },
   props: {
@@ -81,11 +76,6 @@ export default {
         ?this.$t('messages.add_language')
         :this.$t('messages.languages_loading');
     },
-    transFieldName: function(){
-      let labelName = this.labelName ? this.$t('messages.'+this.labelName) : null;
-
-      return this.translateFieldName || labelName;
-    },
     filtFieldName: function(){
       return this.funcs.filtFieldName(this.fieldName);
     },
@@ -99,15 +89,7 @@ export default {
       return this.ppvalue.val;
     },
     fieldLabelName: function(){
-      let value;
-      
-      if (this.transFieldName) {
-        value = this.transFieldName
-      } else {
-        value = this.funcs.fieldLabelName(this.filtFieldName)
-      }
-
-      return value;
+      return this.funcs.fieldLabelName(this.filtFieldName);
     },
     getLangsLink: function(){
       return this.$store.state.routes.index+'/lang/list';

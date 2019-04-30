@@ -47,9 +47,8 @@ export default {
 
     },
 
-    unixTimestamp(unix, format = 'short'){
-
-      let date = new Date(unix*1000);
+    unixTimestamp(unix, format = 'short', phpunix = true){
+      let date = phpunix ? new Date(unix*1000) : new Date(unix);
       let timestamp;
 
       switch(format){
@@ -129,7 +128,6 @@ export default {
     },
 
     datepicker(config){
-      
       let altField = `${config.id}Alt`;
       let dateFormatArgs = ['option', 'dateFormat', 'dd/mm/yy'];
       dateFormatArgs =  config.dateFormat || dateFormatArgs;
@@ -157,13 +155,20 @@ export default {
       $(config.id).datepicker(...dateFormatArgs);
 
       if (config.value) {
-
-        let date = this.unixTimestamp(config.value);
+        let date = this.unixTimestamp(
+          config.value,
+          config.dateFormatType,
+          config.phpunix
+        );
 
         $(config.id).datepicker( 
           "setDate", date
         );
 
+        if (!config.phpunix) {
+          config.value = config.value / 1000;
+        }
+        
         $(altField).val(config.value);
       }
 
@@ -175,20 +180,134 @@ export default {
       return prefix + uniqueID;
     },
 
-    uniqueDomID(idName) {
+    uniqueDomID(idName, additional = 'form') {
       idName = _.kebabCase(_.toLower(idName));
-      return  idName + '-form-' + this.uniqueID();
+      
+      if (additional) {
+        additional = '-'+additional+'-';
+      } else {
+        additional = '';
+      }
+      
+      return  idName + additional + this.uniqueID();
     },
+
+    formattedOutput() { 
+      return new Intl.NumberFormat('tr-TR', {
+        style: 'currency',
+        currency: 'TRY',
+        minimumFractionDigits: 2,
+      })
+    },
+
+    priceFormat: function(price) {
+      return this.formattedOutput().format(price);
+    },
+
+    printPage: function (divId) {
+      var content = document.getElementById(divId).innerHTML;
+      var mywindow = window.open('', 'Print', 'height=600,width=800');
+
+      // mywindow.document.write('<body><head><title>Print</title>');
+      // mywindow.document.write('</head><body >');
+      mywindow.document.write(content);
+      // mywindow.document.write('</body></body>');
+
+      mywindow.document.close();
+      mywindow.focus()
+      mywindow.print();
+      mywindow.close();
+      return true;
+    },
+
+    isPermission: function (perm) {
+      let user = this.$store.state.authUser;
+      
+      if (!user.permissions) {
+        return false;
+      }
+        
+      let index = user.permissions.indexOf(perm);
+      
+      return index > -1;
+    },
+
+    isObjectEmpty: function (obj) {
+      for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+          return false;
+      }
+      return true;
+    },
+
+    isString: function (value) {
+      return typeof value === 'string' || value instanceof String;
+    },
+
+    isNumber: function (value) {
+      return typeof value === 'number' && isFinite(value);
+    },
+
+    translateFieldMsg: function (msg, field) {
+      let repFieldName = field.match(/(\w+\.{1}.*)/);
+      
+      if (!repFieldName) {
+        repFieldName = field.replace(/_/g, ' ');
+      } else {
+        repFieldName = field;
+      }
+      
+			let regex = /(\S*\w+\.\w+)/g;
+			let found = msg.match(regex);
+			
+			if (found) {
+				regex = /(\d*)\.*([\w]+)\.*(\d*)$/g;
+				found = regex.exec(found[0]);
+
+				let count = found[3] || found[1] || '';
+
+				let res = this.$t('messages.'+found[2]) + count
+
+				msg = msg.replace(repFieldName, res);
+			} else {
+				msg = msg.replace(repFieldName, this.$t('messages.'+field));
+			}
+
+			return msg;
+    },
+    copyObject: function (obj) {
+      let target = {};
+
+      for (let prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          target[prop] = obj[prop];
+        }
+      }
+      return target;
+    }
   },
 
-  computed: {},
+  computed: {
+    isAdmin: function () {      
+      let user = this.$store.state.authUser;
+      
+      if (user.name === undefined) {
+        return false;
+      }
+        
+      let index = user.roles.indexOf('admin');
+      
+      return index > -1;
+    }
+  },
 
   filters: {
     capitalize: function (value) {
       if (!value) return '';
-
-      value = value.toString();
-      return value.charAt(0).toUpperCase() + value.slice(1)
+      return _.startCase(_.toLower(value));
+      
+      /* value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1) */
     },
     camelCaseToString(str){
       

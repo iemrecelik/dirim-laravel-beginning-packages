@@ -50,10 +50,10 @@ if($imgModelName){
 if(isset($langModelName)){
     $routes .= '
         Route::get(
-            \'books/lang/list\',
-            \'BooksController@getLangs\'
+            \''.$modelName.'/lang/list\',
+            \''.$controllerName.'@getLangs\'
         )
-        ->name(\'books.langList\');
+        ->name(\''.$modelName.'.langList\');
     ';
 }
 

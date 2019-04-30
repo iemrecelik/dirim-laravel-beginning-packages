@@ -5,7 +5,9 @@ $modelVarName = $params['modelVarName'];
 $filtName = $modelVarName.'ImagesFilt';
 
 return '
-        \''.$filtName.'\' => [
+    \''.$filtName.'\' => [
+        \'quantity\' => 3,
+        \'filters\' => [
             \'_1\' => [
                 \'resize\' => [185, 156],
             ],
@@ -15,6 +17,7 @@ return '
             \'_3\' => [
                 \'resize\' => [64, 54],
             ],
-        ],
+        ]
+    ],
 ';
 };

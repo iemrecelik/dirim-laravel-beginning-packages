@@ -1,18 +1,16 @@
 <template>
-	<div :class="className">
-    <label :for="idName" v-if="labelMsgRequired">
-      <span v-if="labelRequired" class="text-danger">*</span>
+	<div class="form-group">
+    <label :for="idName">
       {{ fieldLabelName }}
     </label>
-    <error-msg-component v-if="errorMsgRequired"
+    <error-msg-component
       :ppsettings="{
         fieldName,
-        transFieldName,
         renderType
       }"
     >
     </error-msg-component>
-    <input type="text" class="form-control" 
+    <input type="password" class="form-control" 
 	    :id="idName" 
 	    :aria-describedby="ariaDescribedby" 
 	    :name="fieldName" 
@@ -24,17 +22,11 @@
 
 <script>
 export default {
-  name: 'TextComponent',
+  name: 'PasswordComponent',
   data () {
     return {
       fieldName: this.ppfieldname,
       funcs: this.ppfuncs,
-      className: this.ppvalue.settings.class || 'form-group',
-      translateFieldName: this.ppvalue.settings.transFieldName,
-      labelName: this.ppvalue.settings.labelName,
-      labelRequired: this.ppvalue.settings.labelRequired || false,
-      labelMsgRequired: this.ppvalue.settings.labelMsgRequired !== false,
-      errorMsgRequired: this.ppvalue.settings.errorMsgRequired !== false,
     };
   },
   props: {
@@ -53,11 +45,6 @@ export default {
     },
   },
   computed: {
-    transFieldName: function(){
-      let labelName = this.labelName ? this.$t('messages.'+this.labelName) : null;
-
-      return this.translateFieldName || labelName;
-    },
     filtFieldName: function(){
       return this.funcs.filtFieldName(this.fieldName);
     },
@@ -68,15 +55,7 @@ export default {
       return this.funcs.ariaDescribedby(this.filtFieldName);
     },
     fieldLabelName: function(){
-      let value;
-      
-      if (this.transFieldName) {
-        value = this.transFieldName
-      } else {
-        value = this.funcs.fieldLabelName(this.filtFieldName)
-      }
-
-      return value;
+      return this.funcs.fieldLabelName(this.filtFieldName);
     },
     value: function(){
       return this.ppvalue.val;

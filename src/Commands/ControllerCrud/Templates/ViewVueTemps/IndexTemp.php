@@ -241,14 +241,14 @@ import deleteComponent from \'./DeleteComponent\';
 
 import { mapState, mapMutations } from \'vuex\';
 
-let formTitleName = \''.$lwModelName.'\'
+let formTitleName = \''.$lwModelName.'\';
 
 export default {
   name: this.componentTitleName,
   data () {
     return {
       modalIDName: \'formModalLong\',
-      formTitleName,
+      formTitleName: \''.$lwModelName.'\',
       dataTable: null,
     };
   },

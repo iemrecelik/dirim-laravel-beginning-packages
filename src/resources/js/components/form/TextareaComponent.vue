@@ -1,42 +1,40 @@
 <template>
 	<div class="form-group">
-    <label v-if="isLabel && labelMsgRequired" 
-      :for="idName"
-    >
+    <label :for="idName">
+      <span v-if="labelRequired" class="text-danger">*</span>
       {{ fieldLabelName }}
     </label>
-    <error-msg-component v-if="errorMsgRequired"
+    <error-msg-component  v-if="errorMsgRequired"
       :ppsettings="{
         fieldName,
         transFieldName,
+        renderType
       }"
     >
     </error-msg-component>
-    <input type="text" readonly="true" :class="inputClass" 
-    	:id="idName" 
-    	:aria-describedby="ariaDescribedby" 
-    	:placeholder="fieldLabelName"
-    />
-    <input type="hidden" 
-    	:id="idNameAlt" 
-    	:name="fieldName"
-      :value='unixTimeInput'
-    />
+    <textarea 
+      class="form-control" 
+      :name="fieldName"
+      :placeholder="fieldLabelName"
+      :id="idName"
+      :aria-describedby="ariaDescribedby"
+      v-html="value"
+      :rows="rows"
+      :cols="cols"
+    >
+    </textarea>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'DateComponent',
+  name: 'TextareaComponent',
   data () {
     return {
       fieldName: this.ppfieldname,
       funcs: this.ppfuncs,
-      unixTimeInput: '',
-      label: this.ppvalue.settings.label,
-      inputClass: 'form-control ' + this.ppvalue.settings.inputClass,
-      phpunix: this.ppvalue.settings.phpunix === false ? false : true,
-      dateFormatType: this.ppvalue.settings.dateFormatType || 'short',
+      rows: this.ppvalue.settings.rows || 6,
+      cols: this.ppvalue.settings.cols || 50,
       translateFieldName: this.ppvalue.settings.transFieldName,
       labelName: this.ppvalue.settings.labelName,
       labelRequired: this.ppvalue.settings.labelRequired || false,
@@ -60,9 +58,6 @@ export default {
     },
   },
   computed: {
-    isLabel: function(){
-      return this.label !== undefined ? this.label : true;
-    },
     transFieldName: function(){
       let labelName = this.labelName ? this.$t('messages.'+this.labelName) : null;
 
@@ -74,14 +69,8 @@ export default {
     idName: function () {
       return this.funcs.idName(this.filtFieldName);
     },
-    idNameAlt: function () {
-      return this.idName + 'Alt';
-    },
     ariaDescribedby: function () {
       return this.funcs.ariaDescribedby(this.filtFieldName);
-    },
-    value: function(){
-      return this.ppvalue.val;
     },
     fieldLabelName: function(){
       let value;
@@ -94,24 +83,12 @@ export default {
 
       return value;
     },
-  },
-  mounted(){
-  	this.datepicker({ 
-      id: '#' + this.idName, 
-      value: this.value,
-      phpunix: this.phpunix,
-      dateFormatType: this.dateFormatType,
-      settings: {
-        onSelect: (dateStr, dateObj) => {
-          let date = dateObj.currentYear + '.'
-                  + (dateObj.currentMonth + 1) + '.'
-                  + dateObj.currentDay;
-
-          this.unixTimeInput = new Date(date).getTime() / 1000;
-          let t = new Date(date).getTime() / 1000;
-        }
-      }
-    });
-  },
+    value: function(){
+      return this.ppvalue.val;
+    },
+    renderType: function(){
+      return this.ppvalue.settings.renderType || 0;
+    },
+  }
 }
 </script>

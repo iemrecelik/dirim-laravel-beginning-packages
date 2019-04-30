@@ -15,8 +15,8 @@ class CreatePermissionTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('perm_id');
-            $table->string('perm_name', 20);
-            $table->string('perm_raw_name', 20);
+            $table->string('perm_name');
+            $table->string('perm_raw_name');
             $table->timestamps();
         });
     }

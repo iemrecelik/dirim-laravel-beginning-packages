@@ -39,7 +39,7 @@ import editFormComponent from \'./EditFormComponent\';
 import { mapState, mapMutations, mapActions } from \'vuex\';
 
 export default {
-  name: \'editComponent\',
+  name: \'EditComponent\',
   data () {
     return {
       datas: this.ppdatas,
@@ -75,9 +75,11 @@ export default {
     ...mapMutations([
       \'setErrors\',
       \'setSucceed\',
+      \'setFormModalLoading\',
     ]),
 
     updateForm: function(){
+      this.setFormModalLoading(true);
       let form = $(\'#\' + this.formIDName);
 
       $.ajax({
@@ -100,6 +102,7 @@ export default {
         this.$parent.dataTable.ajax.reload();
       })
       .always(() => {
+        this.setFormModalLoading(false);
         this.formElement.scrollTo(0, 0);
       });
     },

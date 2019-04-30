@@ -3,8 +3,6 @@ return function ($params) {
 
 extract($params);
 
-$tableName = strtolower(snake_case($modelName));
-
 $modelPrefix = $modelPrefix ?? '';
 $modelRepoUsePath =  isset($modelRepoNamespace)
                         ? "use App\ModelsRepository\\".$modelRepoNamespace.";\n"
@@ -61,7 +59,7 @@ use Illuminate\Database\Eloquent\Model;
 '.$modelRepoUsePath.'
 class '.$modelName.' extends Model
 {'.$modelRepositoryUse.'
-    protected $table = \''.$tableName.'\';
+    protected $table = \''.$table.'\';
 
     protected $primaryKey = \''.$primaryKey.'\';
     '.rtrim($fillable).'

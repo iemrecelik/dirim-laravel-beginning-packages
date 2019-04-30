@@ -27,6 +27,7 @@ class CreateControllerCrud extends Command
 
     private $testMode = false;
     private $baseTmpPaths = 'beginningPack.baseTmpPaths.all';
+    private $table;
     private $langInfoTblPath = null;
     private $essentialVars = [
         'crudType' => 'string',
@@ -191,7 +192,7 @@ class CreateControllerCrud extends Command
     public function setModelVarName($modelPath)
     {
         $this->modelVarName =  preg_replace(
-            '/(.+\/)?(\w+)s$/',
+            '/(.+\/)?(\w+)$/',
             '$2',
             $modelPath
         );
@@ -461,6 +462,18 @@ class CreateControllerCrud extends Command
     private function manual()
     {
         $this->modelPath = $this->option('model');
+
+        $table = $this->ask(
+            'Please enter a table name?',
+            null
+        );
+
+        if (empty($table)) {
+            $this->error('Table name entered empty');
+            exit();
+        } else {
+            $this->table = $table;
+        }
 
         $this->crudType = $this->choice(
             'Choice a crud process type',
@@ -758,6 +771,7 @@ class CreateControllerCrud extends Command
         $langUse = implode('\\', $this->convertUseToPrefix(...$langArgs));
 
         $modelPath = $this->makeCrudModel([
+            'table' => $this->table,
             'modelPath' => $this->modelPath,
             'modelName' => $this->modelName,
             'langModelName' => $this->langModelName,
@@ -773,6 +787,7 @@ class CreateControllerCrud extends Command
 
         if ($this->langModelPath) {
             $langModelPath = $this->makeCrudModel([
+                'table' => $this->table,
                 'modelPath' => $this->langModelPath,
                 'modelName' => $this->langModelName,
                 'primaryKey' => $this->langFieldIDName,
@@ -797,7 +812,10 @@ class CreateControllerCrud extends Command
             $this->makeFile(
                 app_path('Models/'.$this->imgModelPath.'.php'),
                 'ModelTemps/ImagesModelTemp',
-                [ 'namespace' => $imgNamespace ]
+                [
+                    'namespace' => $imgNamespace,
+                    'imgModelName' => $this->imgModelName,
+                ]
             );
         }
         
@@ -1362,12 +1380,13 @@ class CreateControllerCrud extends Command
             'IndexFunc' => 'modelPath',
             'GetDataListFunc' => '
                 modelName|addLangFields|fieldIDName|fieldDependsOnLang
+                |table
             ',
             'StoreFunc' => 'modelName|reqRulesName|langModelName
                 |reqRulesUsePath',
             'ShowFunc' => 'modelName|modelVarName|modelUsePath',
             'EditFunc' => '
-                modelUsePath|modelName|modelVarName|modelPath
+                modelUsePath|modelName|table|modelVarName|modelPath
                 |fieldIDName|langModelName|crudType
             ',
             'UpdateFunc' => '
@@ -1383,11 +1402,12 @@ class CreateControllerCrud extends Command
             'IndexFunc' => 'modelPath',
             'GetDataListFunc' => '
                 modelName|addLangFields|fieldIDName|fieldDependsOnLang
+                |table
             ',
             'CreateFunc' => 'modelPath',
             'ShowFunc' => 'modelName|modelVarName|modelUsePath',
             'EditFunc' => '
-                modelUsePath|modelName|modelVarName|modelPath
+                modelUsePath|modelName|table|modelVarName|modelPath
                 |fieldIDName|langModelName|crudType
             ',
             'DestroyFunc' => '
@@ -1407,13 +1427,14 @@ class CreateControllerCrud extends Command
             'IndexFunc' => 'modelPath',
             'GetDataListFunc' => '
                 modelName|addLangFields|fieldIDName|fieldDependsOnLang
+                |table
             ',
             'CreateFunc' => 'modelPath',
             'StoreFunc' => 'modelName|reqRulesName|langModelName
                 |reqRulesUsePath',
             'ShowFunc' => 'modelName|modelVarName|modelUsePath',
             'EditFunc' => '
-                modelUsePath|modelName|modelVarName|modelPath
+                modelUsePath|modelName|table|modelVarName|modelPath
                 |fieldIDName|langModelName|crudType
             ',
             'UpdateFunc' => '

@@ -12,7 +12,6 @@
 import textComponent from './TextComponent';
 import numberComponent from './NumberComponent';
 import textareaComponent from './TextareaComponent';
-import ckeditorComponent from './CKEditorComponent';
 import passwordComponent from './PasswordComponent';
 import dateComponent from './DateComponent';
 import uploadImageComponent from './UploadImageComponent';
@@ -30,7 +29,6 @@ export default {
       	text: 'form-text-component',
       	number: 'form-number-component',
       	textarea: 'form-textarea-component',
-      	ckeditor: 'form-ckeditor-component',
       	password: 'form-password-component',
         date: 'form-date-component',
         uploadImage: 'form-upload-image-component',
@@ -96,7 +94,6 @@ export default {
 		'form-text-component': textComponent,
 		'form-number-component': numberComponent,
 		'form-textarea-component': textareaComponent,
-		'form-ckeditor-component': ckeditorComponent,
 		'form-password-component': passwordComponent,
     'form-date-component': dateComponent,
     'form-upload-image-component': uploadImageComponent,

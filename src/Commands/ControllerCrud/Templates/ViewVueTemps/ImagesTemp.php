@@ -45,7 +45,7 @@ import imagesFormComponent from \'./ImagesFormComponent\';
 import { mapState, mapMutations, mapActions } from \'vuex\';
 
 export default {
-  name: \'imagesComponent\',
+  name: \'ImagesComponent\',
   data () {
     return {
       datas: this.ppdatas,
@@ -101,6 +101,7 @@ export default {
     ...mapMutations([
       \'setErrors\',
       \'setSucceed\',
+      \'setFormModalLoading\',
     ]),
 
     uploadForm: function(event){
@@ -109,7 +110,7 @@ export default {
       let data = new FormData(form);
       
       let btn = event.target;
-      btn.classList.add("running");
+      this.setFormModalLoading(true);
 
       $.ajax({
         url: this.uploadUrl,
@@ -134,8 +135,8 @@ export default {
         this.$parent.dataTable.ajax.reload();
       })
       .always(() => {
+        this.setFormModalLoading(false);
         this.formElement.scrollTo(0, 0);
-        btn.classList.remove("running");
       });
     },
   },

@@ -39,7 +39,7 @@ return '
         $order = $tblInfo[\'order\'][0][\'dir\'];
 
         $dataList = '.$modelName.'::dataList([
-            \'table\' => \''.strtolower($modelName).'\',
+            \'table\' => \''.$table.'\',
             \'fieldIDName\' => \''.$fieldIDName.'\',
             \'addLangFields\' => ['.$langFields.'],
             \'fieldDependsOnLang\' => \''.$fieldDependsOnLang.'\',

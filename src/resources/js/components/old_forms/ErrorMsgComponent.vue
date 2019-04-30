@@ -13,7 +13,6 @@ export default {
       fieldName: this.ppsettings.fieldName,
       filtErrorFunc: this.ppsettings.filtErrorFunc || null,
       renderType: 'renderType' + (this.ppsettings.renderType || 0),
-      transFieldName: this.ppsettings.transFieldName,
     };
   },
   props: {
@@ -41,21 +40,7 @@ export default {
       if (_.isFunction(this.filtErrorFunc)) {
         value = this.filtErrorFunc(value);
       }
-
-      if (this.transFieldName) {
-        let repFieldName = name.match(/(\w+\.{1}.*)/);
-        
-        if (!repFieldName) {
-          repFieldName = name.replace(/_/g, ' ');
-        } else {
-          repFieldName = name;
-        }
-
-        value = value.replace(repFieldName, this.transFieldName);
-      } else {
-        value = this.translateFieldMsg(value, name);
-      }
-
+      
       return value;
     },
     isFieldError: function (name) {
@@ -71,6 +56,7 @@ export default {
         </small>
       `;
     }
-  },
+  }
+
 }
 </script>

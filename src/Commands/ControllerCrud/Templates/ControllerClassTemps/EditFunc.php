@@ -21,7 +21,7 @@ if ($crudType !== 'modal') {
 
 $isAjaxResponseArgs = empty($resInfo) ? $modelVar : $modelVar.','.$resInfo;
 
-$foreignKey = strtolower($modelName).'.'.$fieldIDName;
+$foreignKey = strtolower($table).'.'.$fieldIDName;
 
 if(empty($langModelName)){
 

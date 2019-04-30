@@ -33,7 +33,7 @@ import createFormComponent from \'./CreateFormComponent\';
 import { mapState, mapMutations } from \'vuex\';
 
 export default {
-  name: \'createComponent\',
+  name: \'CreateComponent\',
   data () {
     return {
       datas: this.ppdatas,
@@ -58,8 +58,10 @@ export default {
     ...mapMutations([
       \'setErrors\',
       \'setSucceed\',
+      \'setFormModalLoading\',
     ]),
     saveForm: function(){
+      this.setFormModalLoading(true);
       let form = $(\'#\' + this.formIDName);
 
       $.ajax({
@@ -81,6 +83,7 @@ export default {
         this.$parent.dataTable.ajax.reload();
       })
       .always(() => {
+        this.setFormModalLoading(false);
         this.formElement.scrollTo(0, 0);
       });
 

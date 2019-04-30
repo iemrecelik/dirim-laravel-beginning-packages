@@ -11,7 +11,7 @@ return '
     {
         $oldImgIDs = $request->input(\'altImages\');
 
-        $filters = config(\'imageFilters.filter.'.$filtName.'\');
+        $filters = config(\'imageFilters.filter.'.$filtName.'.filters\');
 
         /* New images will be saved to storage */
         $imgs = $request->file(\'images.*.file\');

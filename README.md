@@ -78,7 +78,8 @@ Javascript işlemleri için aşağıdaki paketleri yüklemelisiniz.
     "moment": "^2.22.1",
     "v-tooltip": "^2.0.0-rc.33",
     "vue-i18n": "^8.0.0",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vue-notification": "^1.3.16",
 }
 ...
 ```
@@ -90,8 +91,10 @@ npm i --save datatables.net-bs4
 npm i --save datatables.net-responsive-bs4
 npm i --save jquery-ui
 npm i --save moment
+npm i --save v-tooltip
 npm i --save vue-i18n
 npm i --save vuex
+npm i --save vue-notification
 ```
 
 Sonrasında resources/js/bootstrap.js dosyasına aşağıdaki satırları ekleyin.
@@ -200,11 +203,17 @@ import storeObj from './store';
 const store = new Vuex.Store(storeObj(i18n));
 
 /*Global Components Start*/
+import succeedNotifyMsgComponent from './components/SucceedNotifyMsgComponent';
+import errorNotifyMsgListComponent
+from './components/ErrorNotifyMsgListComponent';
+
 import succeedMsgComponent from './components/SucceedMsgComponent';
 import errorMsgListComponent from './components/ErrorMsgListComponent';
 import errorMsgComponent from './components/ErrorMsgComponent';
 import formComponent from './components/form/FormComponent';
 
+Vue.component('succeed-notify-msg-component', succeedNotifyMsgComponent);
+Vue.component('error-notify-msg-list-component', errorNotifyMsgListComponent);
 Vue.component('succeed-msg-component', succeedMsgComponent);
 Vue.component('error-msg-list-component', errorMsgListComponent);
 Vue.component('error-msg-component', errorMsgComponent);
@@ -221,6 +230,10 @@ Vue.mixin(globalMixin);
 /*VTooltip*/
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
+
+/* Vue Notification */
+import Notifications from 'vue-notification'
+Vue.use(Notifications)
 
 /*SharedState*/
 const sharedState = {

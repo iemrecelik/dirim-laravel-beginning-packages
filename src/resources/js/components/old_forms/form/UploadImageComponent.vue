@@ -1,12 +1,11 @@
 <template>
 	<div class="form-group">
-    <label v-if="labelMsgRequired">
+    <label>
       {{ fieldLabelName }}
     </label>
-    <error-msg-component v-if="errorMsgRequired"
+    <error-msg-component
       :ppsettings="{
-    	 fieldName: filtFieldName,
-       transFieldName,
+    	 fieldName: filtFieldName
       }"
     >
     </error-msg-component>
@@ -95,11 +94,6 @@ export default {
       },
       imgID: this.ppvalue.val.img_id,
       funcs: this.ppfuncs,
-      translateFieldName: this.ppvalue.settings.transFieldName,
-      labelName: this.ppvalue.settings.labelName,
-      labelRequired: this.ppvalue.settings.labelRequired || false,
-      labelMsgRequired: this.ppvalue.settings.labelMsgRequired !== false,
-      errorMsgRequired: this.ppvalue.settings.errorMsgRequired !== false,
     };
   },
   props: {
@@ -136,11 +130,6 @@ export default {
     cropFieldName: function(){
       return this.fieldName + '[crops]';
     },
-    transFieldName: function(){
-      let labelName = this.labelName ? this.$t('messages.'+this.labelName) : null;
-
-      return this.translateFieldName || labelName;
-    },
     filtFieldName: function(){
       return this.funcs.filtFieldName(this.fieldName);
     },
@@ -157,19 +146,8 @@ export default {
       return this.funcs.ariaDescribedby(this.filtFieldName);
     },
     fieldLabelName: function(){
-      let value;
-      
-      if (this.transFieldName) {
-        value = this.transFieldName
-      } else {
-        value = this.funcs.fieldLabelName(this.filtFieldName)
-      }
-
-      return value;
-    },
-    /* fieldLabelName: function(){
       return this.funcs.fieldLabelName(this.filtFieldName);
-    }, */
+    },
     inputFileDOM: function(){
       return document.getElementById(this.idName);
     },

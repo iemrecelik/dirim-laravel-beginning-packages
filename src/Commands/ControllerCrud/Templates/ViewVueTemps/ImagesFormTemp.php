@@ -4,13 +4,13 @@ return function(){
 return '
 <template>
 <div>
-  <form-form-component v-for="(filter, key, index) in imgFilters" 
+  <form-form-component v-for="(filter, key, index) in imgFilters.quantity" 
     :key="index"
     :ppsettings="{
       type: \'uploadImage\', 
       fieldName: `images[${index}]`, 
       fieldLabelName: \'image\',
-      value: getIndexItem(index),
+      value: getIndexItem(index-1),
       filtName,
       cropSettings,
     }"

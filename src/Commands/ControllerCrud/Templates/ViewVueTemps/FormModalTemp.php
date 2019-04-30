@@ -23,6 +23,7 @@ return '
     <button 
       type="button" 
       class="btn btn-primary save-form ld-ext-right"
+      :class="formModalBtnClass"
       @click="saveMethod"
     >
       {{saveBtnName}}
@@ -52,6 +53,14 @@ export default {
     },
   },
   computed: {
+    formModalBtnClass: function () {
+      let running = this.formModalLoading === true ? \' running\': \'\';
+      
+      return \'btn btn-primary save-form ld-ext-right\'+running;
+    },
+    formModalLoading: function () {
+      return this.$store.state.formModalLoading;
+    },
     titleName: function () {
       return  this.modalInfoNames.titleName 
               || this.$t(\'messages.modal\');

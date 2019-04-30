@@ -110,18 +110,20 @@ class BeginningPackServiceProvider extends ServiceProvider
 
     protected function loadPermissions()
     {
-        $perms = Cache::rememberForever('permissions', function () {
-            return Permission::all();
-        });
+        $perms = Cache::tags(['permissions'])->rememberForever(
+            'all',
+            function () {
+                return Permission::all();
+            }
+        );
 
         foreach ($perms as $perm) {
             Gate::define($perm->perm_raw_name, function ($user) use ($perm) {
-                $userPerms = Cache::tags('adminUsers', $user->user_id)
-                ->rememberForever(
-                    'permissions',
+                $userPerms = Cache::tags(['permissions'])->rememberForever(
+                    $user->user_id,
                     function () use ($user) {
                         return Permission::fetchUserPermissons(
-                            $user->user_id
+                            $user->user_ids
                         )->get();
                     }
                 );

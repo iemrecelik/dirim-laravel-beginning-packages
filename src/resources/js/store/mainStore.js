@@ -9,6 +9,7 @@ export const state = i18n => ({
 	lang: document.documentElement.lang,
 	formModalBody: {},
 	imgFilters: {},
+	formModalLoading: false,
 });
 
 export const getters = i18n => ({
@@ -62,6 +63,9 @@ export const mutations = i18n => ({
 	},
 	setImgFilters(state, imgFilters){
 		state.imgFilters = imgFilters;
+	},
+	setFormModalLoading(state, formModalLoading){
+		state.formModalLoading = formModalLoading;
 	},
 });
 

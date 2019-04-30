@@ -8,7 +8,9 @@ $imgHtml = '';
 if ($imgModelPath) {
     $imgHtml = '
         $images = '.$modelVar.'->images;
-        $filters = config(\'imageFilters.filter.'.$modelVarName.'ImagesFilt\');
+        $filters = config(
+            \'imageFilters.filter.'.$modelVarName.'ImagesFilt.filters\'
+        );
         
         if ($images->isNotEmpty()) {
             $this->deleteImageFromStorage($images, $filters);
