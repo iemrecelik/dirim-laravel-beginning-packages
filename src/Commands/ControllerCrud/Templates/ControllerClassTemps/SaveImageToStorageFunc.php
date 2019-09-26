@@ -1,5 +1,6 @@
 <?php
-return function(){
+return function($params){
+extract($params);
 
 return '
     private function saveImageToStorage($images, $filters, $crops = null)
@@ -23,7 +24,7 @@ return '
         $imagesArr = array_map(function ($path) {
 
             $path = str_replace(\'public\', \'storage\', $path);
-            return new Images([\'img_path\' => $path]);
+            return new '.$imgModelName.'([\'img_path\' => $path]);
         }, $imgFileUpload->getSavePath());
 
         return $imagesArr;

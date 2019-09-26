@@ -4,7 +4,7 @@ return function(){
 return '
 <template>
 <div>
-  <form-form-component v-for="(filter, key, index) in imgFilters.quantity" 
+  <form-form-component v-for="(index) in imgFilters.quantity" 
     :key="index"
     :ppsettings="{
       type: \'uploadImage\', 

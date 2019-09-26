@@ -468,6 +468,33 @@ class CreateControllerCrud extends Command
         }
     }
 
+    protected function removeRouteLine()
+    {
+        $path = base_path('routes/web.php');
+        $content = $this->getOpenFileContent($path);
+        $webRouteName = strtolower($this->modelPath).'Route.php';
+        $webRouteName = addcslashes($webRouteName, '/');
+
+        $pregContent = preg_replace(
+            // $1
+            "/(.*)".
+            // $2
+            "(require_once\(\'?\"?webroutes\/{$webRouteName}\'?\"?\);)".
+            // $3
+            "(.*)/s",
+            "$1$3",
+            $content
+        );
+
+        $this->writeFiles([
+            [
+                'path' => $path,
+                'content' => $pregContent,
+                'mode' => 'w'
+            ]
+        ]);
+    }
+
     private function removeCrudFiles()
     {
         $removeFiles = [
@@ -513,31 +540,7 @@ class CreateControllerCrud extends Command
             );
         }
 
-        $path = base_path('routes/web.php');
-        $content = $this->getOpenFileContent($path);
-        $webRouteName = strtolower($this->modelPath).'Route.php';
-        $webRouteName = addcslashes($webRouteName, '/');
-
-        // dd($webRouteName);
-
-        $pregContent = preg_replace(
-            // $1
-            "/(.*)".
-            // $2
-            "(require_once\(\'?\"?webroutes\/{$webRouteName}\'?\"?\);)".
-            // $3
-            "(.*)/s",
-            "$1$3",
-            $content
-        );
-
-        $this->writeFiles([
-            [
-                'path' => $path,
-                'content' => $pregContent,
-                'mode' => 'w'
-            ]
-        ]);
+        $this->removeRouteLine();
 
         foreach ($removeFiles as $path) {
             $this->deleteFiles($path);
@@ -563,9 +566,12 @@ class CreateControllerCrud extends Command
         ];
 
         $distinctFiles = [
+            'controllerFile' => app_path('Http/Controllers/Controller.php'),
             'auth' => resource_path('views/auth/'),
             'layouts' => resource_path('views/layouts/')
         ];
+
+        $this->removeRouteLine();
 
         foreach ($removeFiles as $path) {
             $this->deleteFiles($path, $distinctFiles);
@@ -1660,7 +1666,7 @@ class CreateControllerCrud extends Command
                 ',
                 'LoadImagesFunc' => 'modelName|modelVarName',
                 'ConvertToCropFunc' => '',
-                'SaveImageToStorageFunc' => '',
+                'SaveImageToStorageFunc' => 'imgModelName',
                 'DeleteImageFromStorageFunc' => 'imgModelName',
             ]);
         }
