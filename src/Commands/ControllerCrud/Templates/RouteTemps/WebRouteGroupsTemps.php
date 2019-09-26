@@ -6,7 +6,6 @@ extract($params);
 if(empty($prefix)){
 
 $webGroup = '
-
 Route::group(function () {
         '.trim($addRoutes).'
     });
@@ -15,10 +14,9 @@ Route::group(function () {
 }else{
 
 $webGroup = '
-
 Route::prefix(\''.$prefix.'\')
     ->namespace(\''.$namespace.'\')
-    // ->middleware(\'auth\')
+    //->middleware(\'auth\')
     ->name("'.$name.'")
     ->group(function () {
         '.trim($addRoutes).'

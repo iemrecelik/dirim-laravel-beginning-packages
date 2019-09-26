@@ -16,6 +16,9 @@ class CreateControllerCrud extends Command
                                 make:crud
                                 {controller : enter controller name}
                                 {--m|model= : enter model name}
+                                {--r|remove}
+                                {--i|image}
+                                {--a|all}
                             ';
 
     /**
@@ -87,7 +90,7 @@ class CreateControllerCrud extends Command
         parent::__construct();
     }
 
-    public function getTabHtml($count = 1)
+    public function addTabHtml($count = 1)
     {
         return str_repeat(' ', $count * 4);
     }
@@ -406,6 +409,23 @@ class CreateControllerCrud extends Command
             $this->argument('controller')
         );
 
+        $remove = $this->option('remove');
+
+        if ($remove) {
+            $this->fromFile();
+
+            if ($this->option('all')) {
+                /* remove all files */
+                $this->removeAllFiles();
+            } else {
+                /* remove stated crud file */
+                $this->removeCrudFiles();
+            }
+
+            $this->info('Dosyalar silindi.');
+            exit();
+        }
+
         $wayOfLoad = $this->choice(
             'Do you want to generate crud processes it manually or from file?',
             ['manual', 'file'],
@@ -421,6 +441,135 @@ class CreateControllerCrud extends Command
         $this->setVars();
         $this->generateFiles();
         $this->publishInfos();
+    }
+
+    /*
+    * php delete function that deals with directories recursively
+    */
+    private function deleteFiles($target, array $distinct = [])
+    {
+        if (is_dir($target)) {
+            //GLOB_MARK adds a slash to directories returned
+            $files = glob($target . '*', GLOB_MARK);
+
+            $files = array_diff($files, $distinct);
+
+            foreach ($files as $file) {
+                $this->deleteFiles($file);
+            }
+
+            $dirLength = array_diff(scandir($target), ['.', '..']);
+
+            if (count($dirLength) < 1) {
+                rmdir($target);
+            }
+        } elseif (is_file($target)) {
+            unlink($target);
+        }
+    }
+
+    private function removeCrudFiles()
+    {
+        $removeFiles = [
+            'controller' => app_path(
+                'Http/Controllers/'.$this->controllerPath.'.php'
+            ),
+            'reqRule' => app_path(
+                'Http/Requests/'.$this->reqRules.'.php'
+            ),
+            'advancedReqRule' => app_path(
+                'Http/Requests/'.$this->advancedReqRules.'.php'
+            ),
+            'modelPath' => app_path(
+                'Models/'.$this->modelPath.'.php'
+            ),
+            'langModelPath' => app_path(
+                'Models/'.$this->langModelPath.'.php'
+            ),
+            'modelRepositoryPath' => app_path(
+                'ModelsRepository/'.$this->modelPath.'Repository.php'
+            ),
+            'components' => resource_path(
+                'js/components/'.strtolower($this->modelPath).'/'
+            ),
+            'views' => resource_path(
+                'views/'.strtolower($this->modelPath).'/'
+            ),
+            'webRoutes' => base_path(
+                'routes/webroutes/'.strtolower($this->modelPath).'Route.php'
+            ),
+        ];
+
+        /* all files for stated crud */
+        if ($this->option('image')) {
+            // request
+            $removeFiles['imgReqRule'] = app_path(
+                'Http/Requests/'.$this->imgReqRules.'.php'
+            );
+
+            // model
+            $removeFiles['imgModelPath'] = app_path(
+                'Models/'.$this->imgModelPath.'.php'
+            );
+        }
+
+        $path = base_path('routes/web.php');
+        $content = $this->getOpenFileContent($path);
+        $webRouteName = strtolower($this->modelPath).'Route.php';
+        $webRouteName = addcslashes($webRouteName, '/');
+
+        // dd($webRouteName);
+
+        $pregContent = preg_replace(
+            // $1
+            "/(.*)".
+            // $2
+            "(require_once\(\'?\"?webroutes\/{$webRouteName}\'?\"?\);)".
+            // $3
+            "(.*)/s",
+            "$1$3",
+            $content
+        );
+
+        $this->writeFiles([
+            [
+                'path' => $path,
+                'content' => $pregContent,
+                'mode' => 'w'
+            ]
+        ]);
+
+        foreach ($removeFiles as $path) {
+            $this->deleteFiles($path);
+        }
+    }
+
+    private function removeAllFiles()
+    {
+        $removeFiles = [
+            'controller' => app_path('Http/Controllers/'),
+            'reqRule' => app_path('Http/Requests/'),
+            'modelPath' => app_path('Models/'),
+            'modelRepositoryPath' => app_path('ModelsRepository/'),
+            'beginningPack' => config_path('beginningPack.php'),
+            'imageFilters' => config_path('imageFilters.php'),
+            'components' => resource_path('js/components/'),
+            'jquery' => resource_path('js/jquery/'),
+            'store' => resource_path('js/store/'),
+            'componentsJs' => resource_path('js/components.js'),
+            'globalMixinJs' => resource_path('js/globalMixin.js'),
+            'views' => resource_path('views/'),
+            'webRoutes' => base_path('routes/webroutes/'),
+        ];
+
+        $distinctFiles = [
+            'auth' => resource_path('views/auth/'),
+            'layouts' => resource_path('views/layouts/')
+        ];
+
+        foreach ($removeFiles as $path) {
+            $this->deleteFiles($path, $distinctFiles);
+        }
     }
 
     private function fromFile()
@@ -456,7 +605,6 @@ class CreateControllerCrud extends Command
             }
             $this->error(trim($errorMsg));
         }
-        // dd('end');
     }
 
     private function manual()
@@ -899,14 +1047,14 @@ class CreateControllerCrud extends Command
             );
 
             $defaultConfig =
-                    "\n{$this->getTabHtml(3)}'images' => 'array',".
-                    "\n{$this->getTabHtml(3)}'images.*.file' => ".
+                    "\n{$this->addTabHtml(3)}'images' => 'array',".
+                    "\n{$this->addTabHtml(3)}'images.*.file' => ".
                         "'file|max:2500|mimes:jpeg,jpg,png,gif',\n";
 
             $imgRuleContent = preg_replace(
                 '/(.+public function rules\(\).+return\s\[)'.
                 '(.*)(\]\;.+)/s',
-                "$1{$defaultConfig}{$this->getTabHtml(2)}$3",
+                "$1{$defaultConfig}{$this->addTabHtml(2)}$3",
                 $imgRuleContent
             );
 
@@ -928,7 +1076,13 @@ class CreateControllerCrud extends Command
     protected function configFilesContents()
     {
         $configContents[] = $this->componentJSContent();
-        $configContents[] = $this->routeWebContent();
+        // $configContents[] = $this->routeWebContent();
+        $configContents = array_merge(
+            $configContents,
+            $this->routeWebContent()
+        );
+
+        // dd($configContents);
 
         if ($this->imgModelName) {
             $configContents[] = $this->imageFiltersContent();
@@ -970,7 +1124,7 @@ class CreateControllerCrud extends Command
 
         $content = preg_replace(
             '/(.+\'filter\' => \[.*)(\]\,)(.*\]\;)$/s',
-            "$1{$addFilter}{$this->getTabHtml()}$2$3\n",
+            "$1{$addFilter}{$this->addTabHtml()}$2$3\n",
             $content
         );
         
@@ -999,6 +1153,7 @@ class CreateControllerCrud extends Command
         $controllerPath = strtolower($controllerPath);
         $controllerPathName = str_replace('/', '.', $controllerPath);
         $controllerPathName .= '.';
+        
         $addRoutes = $this->getTemp(
             'RouteTemps/WebRouteTemps',
             [
@@ -1011,17 +1166,31 @@ class CreateControllerCrud extends Command
             ]
         );
 
+        $addReqRouteFileName = strtolower($this->modelPath).'Route.php';
+
+        $addReqRouteContent = $this->addTabHtml(2).
+            "require_once('webroutes/".$addReqRouteFileName."');\n";
+
+        $addReqRoutePath = base_path(
+            'routes/webroutes/'.$addReqRouteFileName
+        );
+
         $controllerPathPreg = addcslashes($controllerPath, '/');
         $controllerUsePathPreg = addslashes($controllerUsePath);
         $controllerPathNamePreg = addslashes($controllerPathName);
 
         $pregContent = preg_replace(
+            //$1
             "/(Route::prefix\(\'?\"?$controllerPathPreg\'?\"?\)".
             ".*->namespace\(\'?\"?$controllerUsePathPreg\'?\"?\)".
+            ".*\/\/->middleware\(\'?\"?auth\'?\"?\)".
             ".*->name\(\'?\"?$controllerPathNamePreg\'?\"?\)".
-            ".*->group\(function\(\)\{.*)(\}\)\;)".
+            ".*->group\(function\s?\(\)\s?\{.*)".
+            //$2
+            "(\}\)\;)".
+            //$3
             "(.*)/s",
-            "$1\n{$addRoutes}{$this->getTabHtml(1)}$2\n$3",
+            "$1\n{$addReqRouteContent}{$this->addTabHtml(1)}$2$3",
             $content
         );
 
@@ -1030,7 +1199,7 @@ class CreateControllerCrud extends Command
                 'prefix' => $controllerPath,
                 'namespace' => $controllerUsePath,
                 'name' => $controllerPathName,
-                'addRoutes' => $addRoutes,
+                'addRoutes' => $addReqRouteContent,
             ];
             $pregContent = $this->getTemp(
                 'RouteTemps/WebRouteGroupsTemps',
@@ -1040,9 +1209,16 @@ class CreateControllerCrud extends Command
         }
 
         return [
-            'path' => $path,
-            'content' => $pregContent,
-            'mode' => $mode ?? 'w',
+            [
+                'path' => $path,
+                'content' => $pregContent,
+                'mode' => $mode ?? 'w',
+            ],
+            [
+                'path' => $addReqRoutePath,
+                'content' => $addRoutes,
+                'mode' => 'w'
+            ]
         ];
     }
 

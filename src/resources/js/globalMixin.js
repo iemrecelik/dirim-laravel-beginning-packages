@@ -111,6 +111,7 @@ export default {
 
     dataTableRun(config = null){
       return $(config.jQDomName).DataTable({
+        language: config.language || this.$t('datatables'),
         responsive: config.responsive || true,
         processing: config.processing || true,
         serverSide: config.serverSide || true,
@@ -119,7 +120,8 @@ export default {
           type: config.method || 'POST',
         },
         columns: config.columns,
-        "drawCallback": function( settings ) {
+        order: config.order || [[0, 'asc']],
+        "drawCallback": config.drawCallback || function(settings) {
           $('[data-toggle="tooltip"]').tooltip({
             trigger: "hover",
           });
@@ -248,6 +250,10 @@ export default {
       return typeof value === 'number' && isFinite(value);
     },
 
+    isFunction: function(value) {
+      return typeof value === 'function';
+    },
+
     translateFieldMsg: function (msg, field) {
       let repFieldName = field.match(/(\w+\.{1}.*)/);
       
@@ -284,6 +290,25 @@ export default {
         }
       }
       return target;
+    },
+    textTruncate: function(str, length = 20, ending = '...') {
+      if (length == null) {
+        length = 100;
+      }
+      if (ending == null) {
+        ending = '...';
+      }
+      if (str.length > length) {
+        return str.substring(0, length - ending.length) + ending;
+      } else {
+        return str;
+      }
+    },
+    htmlEntities: function (str) {
+        return String(str).replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     }
   },
 
@@ -303,11 +328,11 @@ export default {
 
   filters: {
     capitalize: function (value) {
-      if (!value) return '';
-      return _.startCase(_.toLower(value));
-      
-      /* value = value.toString();
-      return value.charAt(0).toUpperCase() + value.slice(1) */
+      if (typeof value !== 'string') return ''
+      return value.charAt(0).toUpperCase() + value.slice(1)
+
+      /* if (!value) return '';
+      return _.startCase(_.toLower(value)); */
     },
     camelCaseToString(str){
       

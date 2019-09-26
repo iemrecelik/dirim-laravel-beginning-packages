@@ -50,6 +50,7 @@ return [
         $rolesAndPermissionsModels => app_path('Models'),
     ],
     'scriptSnippets' => [
+        $fromBeginPackConfig => config_path('beginningPack.php'),
         $mainjsPath => resource_path('js/jquery/main.js'),
         $mainajaxjsPath => resource_path('js/jquery/main-ajax.js'),
         $appPath => resource_path('js/app.js'),

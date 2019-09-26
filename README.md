@@ -80,6 +80,7 @@ Javascript işlemleri için aşağıdaki paketleri yüklemelisiniz.
     "vue-i18n": "^8.0.0",
     "vuex": "^3.0.1",
     "vue-notification": "^1.3.16",
+    "vue-text-mask": "^6.1.2"
 }
 ...
 ```
@@ -121,6 +122,10 @@ window.Cropper = require('cropperjs/dist/cropper.js');
 /*Main JS*/
 require('./jquery/main.js');
 require('./jquery/main-ajax.js');
+
+/* CKEditor 4 */
+window.CKEDITOR_BASEPATH = '/ckeditor/ckeditor/';
+require('./plugins/ckeditor4/ckeditor.js');
 ...
 ```
 
